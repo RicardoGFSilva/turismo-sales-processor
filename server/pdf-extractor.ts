@@ -1,15 +1,5 @@
-import * as pdfjsLib from 'pdfjs-dist';
+import { PDFParse } from 'pdf-parse';
 import { InsertSalesInvoice, InsertSalesTicket } from '../drizzle/schema';
-
-// Polyfill for DOMMatrix in Node.js environment
-if (typeof global.DOMMatrix === 'undefined') {
-  global.DOMMatrix = class DOMMatrix {
-    constructor() {}
-  } as any;
-}
-
-// Set up PDF.js worker
-pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
 
 export interface ExtractedInvoiceData {
   invoice: InsertSalesInvoice;
@@ -22,19 +12,11 @@ export interface ExtractedInvoiceData {
  */
 export async function extractTextFromPDF(pdfBuffer: Buffer): Promise<string> {
   try {
-    const pdf = await pdfjsLib.getDocument({ data: pdfBuffer }).promise;
-    let fullText = '';
-
-    for (let i = 1; i <= pdf.numPages; i++) {
-      const page = await pdf.getPage(i);
-      const textContent = await page.getTextContent();
-      const pageText = textContent.items
-        .map((item: any) => item.str)
-        .join(' ');
-      fullText += pageText + '\n';
-    }
-
-    return fullText;
+    const base64 = pdfBuffer.toString('base64');
+    const dataUrl = `data:application/pdf;base64,${base64}`;
+    const parser = new PDFParse({ url: dataUrl });
+    const result = await parser.getText();
+    return result.text || '';
   } catch (error) {
     console.error('Error extracting text from PDF:', error);
     throw new Error('Failed to extract text from PDF');

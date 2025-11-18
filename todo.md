@@ -96,3 +96,12 @@
 
 **Tabela: pdf_mappings** - Armazena mapeamentos de colunas (De-Para)
 - id, name, description, columnMapping (JSON), platformName, createdAt, updatedAt
+
+
+## Correções Necessárias
+
+### Erro de Deployment
+- [x] Remover dependência pdfjs-dist que causa erro em produção
+- [x] Implementar extração de PDF usando biblioteca alternativa (pdf-parse ou pdfjs-dist/legacy)
+- [ ] Testar deployment após correção
+- [ ] Publicar sistema corrigido
