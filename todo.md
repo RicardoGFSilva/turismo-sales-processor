@@ -103,5 +103,6 @@
 ### Erro de Deployment
 - [x] Remover dependência pdfjs-dist que causa erro em produção
 - [x] Implementar extração de PDF usando biblioteca alternativa (pdf-parse ou pdfjs-dist/legacy)
+- [x] Corrigir erro de upload de arquivos (Uint8Array vs Buffer)
 - [ ] Testar deployment após correção
 - [ ] Publicar sistema corrigido

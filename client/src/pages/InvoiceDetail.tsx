@@ -78,13 +78,18 @@ export default function InvoiceDetail({ invoiceId }: InvoiceDetailProps) {
     }
 
     setUploading(true);
-    const buffer = await file.arrayBuffer();
-    uploadAttachmentMutation.mutate({
-      invoiceId,
-      file: new Uint8Array(buffer) as any,
-      filename: file.name,
-      type,
-    });
+    try {
+      const buffer = await file.arrayBuffer();
+      const uint8Array = new Uint8Array(buffer);
+      uploadAttachmentMutation.mutate({
+        invoiceId,
+        file: uint8Array,
+        filename: file.name,
+        type,
+      });
+    } catch (error) {
+      toast.error('Failed to read file');
+    }
     setUploading(false);
   };
 

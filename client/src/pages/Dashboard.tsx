@@ -66,11 +66,16 @@ export default function Dashboard() {
     }
 
     setUploading(true);
-    const buffer = await uploadFile.arrayBuffer();
-    uploadPDFMutation.mutate({
-      file: new Uint8Array(buffer) as any,
-      filename: uploadFile.name,
-    });
+    try {
+      const buffer = await uploadFile.arrayBuffer();
+      const uint8Array = new Uint8Array(buffer);
+      uploadPDFMutation.mutate({
+        file: uint8Array,
+        filename: uploadFile.name,
+      });
+    } catch (error) {
+      toast.error('Failed to read file');
+    }
     setUploading(false);
   };
 

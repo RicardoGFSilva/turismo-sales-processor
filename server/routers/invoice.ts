@@ -19,21 +19,24 @@ export const invoiceRouter = router({
   uploadPDF: protectedProcedure
     .input(
       z.object({
-        file: z.instanceof(Buffer),
+        file: z.instanceof(Uint8Array),
         filename: z.string(),
       })
     )
     .mutation(async ({ input, ctx }) => {
       try {
+        // Convert Uint8Array to Buffer
+        const fileBuffer = Buffer.from(input.file);
+        
         // Upload PDF to storage
         const { url: pdfUrl, key: pdfKey } = await uploadPDFFile(
-          input.file,
+          fileBuffer,
           input.filename,
           ctx.user.id
         );
 
         // Extract data from PDF
-        const extractedData = await extractInvoiceFromPDF(input.file, input.filename);
+        const extractedData = await extractInvoiceFromPDF(fileBuffer, input.filename);
 
         // Update invoice with PDF path
         extractedData.invoice.pdfPath = pdfKey;
@@ -156,15 +159,16 @@ export const invoiceRouter = router({
     .input(
       z.object({
         invoiceId: z.string(),
-        file: z.instanceof(Buffer),
+        file: z.instanceof(Uint8Array),
         filename: z.string(),
         type: z.enum(['voucher', 'billet']),
       })
     )
     .mutation(async ({ input }) => {
       try {
+        const fileBuffer = Buffer.from(input.file);
         const { url, key } = await uploadAttachmentFile(
-          input.file,
+          fileBuffer,
           input.filename,
           input.invoiceId,
           input.type
