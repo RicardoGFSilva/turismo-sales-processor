@@ -107,3 +107,9 @@
 - [x] Implementar parser robusto baseado na estrutura real do PDF
 - [ ] Testar com PDF de exemplo
 - [ ] Publicar sistema corrigido
+
+
+## Melhorias de UX
+
+- [x] Melhorar contraste dos títulos das seções (Search Invoices, Processed Invoices)
+- [x] Aumentar brilho/luminosidade dos textos dos títulos contra fundo azul escuro

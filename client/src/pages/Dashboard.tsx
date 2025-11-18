@@ -120,11 +120,11 @@ export default function Dashboard() {
         {/* Upload Section */}
         <Card className="mb-8 bg-[#1a2a4a] border-white/10">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-white">
               <Upload className="h-5 w-5 text-[#ffc107]" />
               Upload PDF Invoice
             </CardTitle>
-            <CardDescription>Upload a PDF file to extract sales data</CardDescription>
+            <CardDescription className="text-gray-300">Upload a PDF file to extract sales data</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -167,7 +167,7 @@ export default function Dashboard() {
         {/* Search Section */}
         <Card className="mb-8 bg-[#1a2a4a] border-white/10">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-white">
               <Search className="h-5 w-5 text-[#00bcd4]" />
               Search Invoices
             </CardTitle>
@@ -185,8 +185,8 @@ export default function Dashboard() {
         {/* Invoices Table */}
         <Card className="bg-[#1a2a4a] border-white/10">
           <CardHeader>
-            <CardTitle>Processed Invoices</CardTitle>
-            <CardDescription>{invoices?.length || 0} invoices found</CardDescription>
+            <CardTitle className="text-white">Processed Invoices</CardTitle>
+            <CardDescription className="text-gray-300">{invoices?.length || 0} invoices found</CardDescription>
           </CardHeader>
           <CardContent>
             {listLoading ? (
