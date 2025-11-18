@@ -3,6 +3,13 @@ import path from "path";
 
 const templateRoot = path.resolve(import.meta.dirname);
 
+// Polyfill setup
+if (typeof global.DOMMatrix === 'undefined') {
+  (global as any).DOMMatrix = class DOMMatrix {
+    constructor() {}
+  };
+}
+
 export default defineConfig({
   root: templateRoot,
   resolve: {
@@ -15,5 +22,6 @@ export default defineConfig({
   test: {
     environment: "node",
     include: ["server/**/*.test.ts", "server/**/*.spec.ts"],
+    setupFiles: ["./vitest.setup.ts"],
   },
 });
