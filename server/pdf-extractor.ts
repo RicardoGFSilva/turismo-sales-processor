@@ -12,10 +12,30 @@ export interface ExtractedInvoiceData {
  */
 export async function extractTextFromPDF(pdfBuffer: Buffer): Promise<string> {
   try {
+    // Convert buffer to file:// URL by writing to temp location
     const base64 = pdfBuffer.toString('base64');
     const dataUrl = `data:application/pdf;base64,${base64}`;
-    const parser = new PDFParse({ url: dataUrl });
+    
+    // Use file URL approach - write to temp and read
+    const fs = await import('fs').then(m => m.promises);
+    const path = await import('path');
+    const os = await import('os');
+    
+    const tempDir = os.tmpdir();
+    const tempFile = path.join(tempDir, `pdf-${Date.now()}.pdf`);
+    
+    await fs.writeFile(tempFile, pdfBuffer);
+    
+    const parser = new PDFParse({ url: `file://${tempFile}` });
     const result = await parser.getText();
+    
+    // Clean up temp file
+    try {
+      await fs.unlink(tempFile);
+    } catch (e) {
+      // Ignore cleanup errors
+    }
+    
     return result.text || '';
   } catch (error) {
     console.error('Error extracting text from PDF:', error);
@@ -27,61 +47,73 @@ export async function extractTextFromPDF(pdfBuffer: Buffer): Promise<string> {
  * Parse invoice header information from extracted text
  */
 function parseInvoiceHeader(text: string): Partial<InsertSalesInvoice> {
-  const lines = text.split('\n');
   const result: Partial<InsertSalesInvoice> = {};
 
-  // Extract agency name (usually first line with company name)
-  const agencyMatch = text.match(/^([A-Z\s]+(?:LTDA|LTDA\.)?)/m);
-  if (agencyMatch) {
-    result.agencyName = agencyMatch[1].trim();
+  // Extract agency name (first line with company name)
+  const lines = text.split('\n');
+  if (lines.length > 0) {
+    result.agencyName = lines[0].trim();
   }
 
-  // Extract CNPJ (pattern: XX.XXX.XXX/XXXX-XX)
-  const cnpjPattern = /(\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2})/g;
-  const cnpjMatches = text.match(cnpjPattern);
-  if (cnpjMatches && cnpjMatches.length >= 1) {
-    result.agencyCNPJ = cnpjMatches[0];
-  }
-  if (cnpjMatches && cnpjMatches.length >= 2) {
-    result.clientCNPJ = cnpjMatches[1];
+  // Extract agency CNPJ (pattern: XX.XXX.XXX/XXXX-XX)
+  const cnpjPattern = /CNPJ:\s*(\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2})/i;
+  const cnpjMatch = text.match(cnpjPattern);
+  if (cnpjMatch) {
+    result.agencyCNPJ = cnpjMatch[1];
   }
 
-  // Extract client name
-  const clientMatch = text.match(/Cliente:\s*([^\n]+)/i);
-  if (clientMatch) {
-    result.clientName = clientMatch[1].trim();
+  // Extract agency address
+  const addressPattern = /ALAMEDA\s+([^\n]+)|RUA\s+([^\n]+)|AV\.\s+([^\n]+)/i;
+  const addressMatch = text.match(addressPattern);
+  if (addressMatch) {
+    result.agencyAddress = (addressMatch[1] || addressMatch[2] || addressMatch[3]).trim();
   }
 
-  // Extract email
-  const emailMatch = text.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/);
+  // Extract agency email
+  const emailPattern = /E-Mail:\s*([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/i;
+  const emailMatch = text.match(emailPattern);
   if (emailMatch) {
     result.agencyEmail = emailMatch[1];
   }
 
-  // Extract address
-  const addressMatch = text.match(/(?:Endereço|Alameda|Rua):\s*([^\n]+)/i);
-  if (addressMatch) {
-    result.agencyAddress = addressMatch[1].trim();
+  // Extract client name
+  const clientPattern = /Cliente:\s*([^\n]+)/i;
+  const clientMatch = text.match(clientPattern);
+  if (clientMatch) {
+    result.clientName = clientMatch[1].trim();
+  }
+
+  // Extract client CNPJ
+  const clientCnpjPattern = /C\.N\.P\.J\.:\s*(\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2})/;
+  const clientCnpjMatch = text.match(clientCnpjPattern);
+  if (clientCnpjMatch) {
+    result.clientCNPJ = clientCnpjMatch[1];
   }
 
   // Extract client address
-  const clientAddressMatch = text.match(/Cliente:[\s\S]*?Endereço:\s*([^\n]+)/i);
+  const clientAddressPattern = /Endereço:\s*([^\n]+)/i;
+  const clientAddressMatch = text.match(clientAddressPattern);
   if (clientAddressMatch) {
     result.clientAddress = clientAddressMatch[1].trim();
   }
 
-  // Extract city, state, zip
-  const cityMatch = text.match(/Cidade:\s*([^\n]+)/i);
+  // Extract client city
+  const cityPattern = /Cidade:\s*([^\t\n]+)/i;
+  const cityMatch = text.match(cityPattern);
   if (cityMatch) {
     result.clientCity = cityMatch[1].trim();
   }
 
-  const stateMatch = text.match(/Estado:\s*([A-Z]{2})/i);
+  // Extract client state
+  const statePattern = /Estado:\s*([A-Z]{2})/;
+  const stateMatch = text.match(statePattern);
   if (stateMatch) {
     result.clientState = stateMatch[1];
   }
 
-  const zipMatch = text.match(/CEP:\s*(\d{5}-\d{3})/);
+  // Extract client ZIP
+  const zipPattern = /CEP:\s*(\d{5}-\d{3})/;
+  const zipMatch = text.match(zipPattern);
   if (zipMatch) {
     result.clientZip = zipMatch[1];
   }
@@ -96,45 +128,39 @@ function parseTickets(text: string, invoiceId: string): InsertSalesTicket[] {
   const tickets: InsertSalesTicket[] = [];
 
   // Split by airline company sections (Cia: XX)
-  const ciaPattern = /Cia:\s*([A-Z]{2})\s+Emissao:\s*([^\n]+)\s+Tipo:\s*([^\n]+)/g;
+  const ciaPattern = /Cia:\s*([A-Z]{2})\s+Emissao:\s*([^\t]+)\s+Tipo:\s*([^\n]+)/g;
   let ciaMatch;
 
   while ((ciaMatch = ciaPattern.exec(text)) !== null) {
     const airline = ciaMatch[1];
     const saleType = ciaMatch[3].trim();
 
-    // Find the section between this Cia and the next one or end of text
+    // Find the section between this Cia and the next one or TOTAL
     const startIdx = ciaMatch.index + ciaMatch[0].length;
     const nextCiaIdx = text.indexOf('Cia:', startIdx);
-    const endIdx = nextCiaIdx !== -1 ? nextCiaIdx : text.length;
+    const totalIdx = text.indexOf('TOTAL GERAL', startIdx);
+    let endIdx = text.length;
+    
+    if (nextCiaIdx !== -1) endIdx = Math.min(endIdx, nextCiaIdx);
+    if (totalIdx !== -1) endIdx = Math.min(endIdx, totalIdx);
+    
     const section = text.substring(startIdx, endIdx);
 
     // Parse individual ticket rows
     // Pattern: PASSENGER_NAME ROUTE DATE TKT/LOC TARIFF TAX ... LIQUIDO TXDU
-    const ticketPattern = /([A-Z\s/]+?)\s+(\d{1,2}\/\d{2}\/\d{2})\s+(\d+)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)/g;
+    const lines = section.split('\n');
+    
+    for (const line of lines) {
+      // Skip header and total lines
+      if (line.includes('Passageiro') || line.includes('TOTAL DA CIA') || line.trim() === '') {
+        continue;
+      }
 
-    let ticketMatch;
-    while ((ticketMatch = ticketPattern.exec(section)) !== null) {
-      const ticket: InsertSalesTicket = {
-        invoiceId,
-        passengerName: ticketMatch[1].trim(),
-        emissionDate: ticketMatch[2],
-        ticketNumber: ticketMatch[3],
-        airline,
-        saleType,
-        tariff: parseMoneyToInt(ticketMatch[4]),
-        tax: parseMoneyToInt(ticketMatch[5]),
-        cardRAV: parseMoneyToInt(ticketMatch[6]),
-        commission: parseMoneyToInt(ticketMatch[7]),
-        incentive: parseMoneyToInt(ticketMatch[8]),
-        discount: parseMoneyToInt(ticketMatch[9]),
-        taxAmount: parseMoneyToInt(ticketMatch[10]),
-        fee: parseMoneyToInt(ticketMatch[11]),
-        adminFee: parseMoneyToInt(ticketMatch[12]),
-        netAmount: parseMoneyToInt(ticketMatch[13]),
-        duTax: parseMoneyToInt(ticketMatch[14]),
-      };
-      tickets.push(ticket);
+      // Try to parse the line as a ticket
+      const ticket = parseTicketLine(line, airline, saleType, invoiceId);
+      if (ticket) {
+        tickets.push(ticket);
+      }
     }
   }
 
@@ -142,13 +168,60 @@ function parseTickets(text: string, invoiceId: string): InsertSalesTicket[] {
 }
 
 /**
- * Parse monetary values from string format (e.g., "1.234,56") to integer (cents)
+ * Parse a single ticket line
  */
-function parseMoneyToInt(value: string): number {
-  if (!value || value === '0,00') return 0;
-  // Remove dots (thousands separator) and replace comma with dot
-  const normalized = value.replace(/\./g, '').replace(',', '.');
-  return Math.round(parseFloat(normalized) * 100);
+function parseTicketLine(
+  line: string,
+  airline: string,
+  saleType: string,
+  invoiceId: string
+): InsertSalesTicket | null {
+  // Trim and check if line has enough content
+  const trimmed = line.trim();
+  if (!trimmed || trimmed.length < 20) return null;
+
+  try {
+    // Split by multiple spaces/tabs to get fields
+    const fields = trimmed.split(/\s{2,}|\t+/).filter(f => f.trim());
+    
+    if (fields.length < 8) return null;
+
+    // Extract passenger name (first field, may contain multiple words)
+    const passengerName = fields[0];
+    
+    // Find numeric fields (tariff, tax, etc.)
+    const numericFields = fields.slice(1).map(f => {
+      // Parse currency format (1.234,56 or 1234,56)
+      const cleanedValue = f.replace(/\./g, '').replace(',', '.');
+      return parseFloat(cleanedValue) || 0;
+    });
+
+    if (numericFields.length < 7) return null;
+
+    const ticket: InsertSalesTicket = {
+      invoiceId,
+      passengerName: passengerName.trim(),
+      emissionDate: new Date().toLocaleDateString('pt-BR'),
+      ticketNumber: fields[1] || 'N/A',
+      airline,
+      saleType,
+      tariff: Math.round(numericFields[0] * 100),
+      tax: Math.round(numericFields[1] * 100),
+      cardRAV: Math.round(numericFields[2] * 100),
+      commission: Math.round(numericFields[3] * 100),
+      incentive: Math.round(numericFields[4] * 100),
+      discount: Math.round(numericFields[5] * 100),
+      taxAmount: Math.round(numericFields[6] * 100),
+      fee: numericFields[7] ? Math.round(numericFields[7] * 100) : 0,
+      adminFee: numericFields[8] ? Math.round(numericFields[8] * 100) : 0,
+      netAmount: numericFields[9] ? Math.round(numericFields[9] * 100) : 0,
+      duTax: numericFields[10] ? Math.round(numericFields[10] * 100) : 0,
+    };
+
+    return ticket;
+  } catch (error) {
+    return null;
+  }
 }
 
 /**
@@ -175,16 +248,16 @@ function calculateTotals(tickets: InsertSalesTicket[]): {
 }
 
 /**
- * Extract invoice ID from text (usually in filename or first lines)
+ * Extract invoice ID from text or filename
  */
 function extractInvoiceId(text: string, filename?: string): string {
-  // Try to extract from filename first
+  // Try to extract from filename first (pattern like FTS-SAO00402220250715)
   if (filename) {
     const match = filename.match(/([A-Z]{3}-[A-Z]{3}\d+\d{8})/);
     if (match) return match[1];
   }
 
-  // Try to find in text (pattern like FTS-SAO00402220250715)
+  // Try to find in text
   const match = text.match(/([A-Z]{3}-[A-Z]{3}\d+\d{8})/);
   if (match) return match[1];
 
@@ -202,6 +275,10 @@ export async function extractInvoiceFromPDF(
   try {
     // Extract text from PDF
     const rawText = await extractTextFromPDF(pdfBuffer);
+
+    if (!rawText || rawText.trim().length === 0) {
+      throw new Error('PDF appears to be empty or unreadable');
+    }
 
     // Extract invoice ID
     const invoiceId = extractInvoiceId(rawText, filename);
