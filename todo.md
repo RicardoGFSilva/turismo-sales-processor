@@ -113,3 +113,10 @@
 
 - [x] Melhorar contraste dos títulos das seções (Search Invoices, Processed Invoices)
 - [x] Aumentar brilho/luminosidade dos textos dos títulos contra fundo azul escuro
+
+
+## Correções Urgentes
+
+- [x] Corrigir erro de acesso ao detalhe de invoice (Invoice not found)
+- [x] Ajustar paleta de cores para branco (em vez de azul/ciano)
+- [x] Traduzir todo o frontend para português brasileiro
