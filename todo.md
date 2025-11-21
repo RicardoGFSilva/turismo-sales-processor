@@ -120,3 +120,14 @@
 - [x] Corrigir erro de acesso ao detalhe de invoice (Invoice not found)
 - [x] Ajustar paleta de cores para branco (em vez de azul/ciano)
 - [x] Traduzir todo o frontend para português brasileiro
+
+
+## Restauração de Design (Master Project Business)
+
+- [x] Restaurar fundo azul escuro (#0a1930) no Dashboard
+- [x] Restaurar botões em amarelo/ouro (#ffc107)
+- [x] Restaurar acentos em verde água (#00bcd4)
+- [x] Restaurar textos em branco com bom contraste
+- [x] Restaurar design no InvoiceDetail com mesma paleta
+- [x] Melhorar contraste de cores com fundo azul escuro
+- [x] Testar layout completo

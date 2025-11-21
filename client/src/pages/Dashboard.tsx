@@ -102,33 +102,33 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-white text-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-[#0a1930] to-[#1a2a4a] text-white">
       {/* Header */}
-      <header className="border-b border-gray-200 bg-white shadow-sm">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+      <header className="border-b border-[#ffc107]/20 bg-[#0a1930] p-4">
+        <div className="container mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <img src={APP_LOGO} alt="Logo" className="h-12 w-12 rounded-full" />
-            <h1 className="text-2xl font-bold text-gray-900">{APP_TITLE}</h1>
+            <img src={APP_LOGO} alt="Logo" className="h-10 w-10" />
+            <h1 className="text-xl font-bold text-white">Sistema de Processamento de Vendas de Turismo</h1>
           </div>
-          <div className="text-sm text-gray-600">
-            Conectado como: <span className="text-gray-900 font-semibold">{user?.name}</span>
+          <div className="text-sm text-gray-300">
+            Conectado como: <span className="font-semibold text-[#00bcd4]">{user?.name || 'Usuário'}</span>
           </div>
         </div>
       </header>
 
       <main className="container mx-auto px-4 py-8">
         {/* Upload Section */}
-        <Card className="mb-8 bg-white border-gray-200">
+        <Card className="mb-8 bg-[#1a2a4a] border-white/10">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-gray-900">
-              <Upload className="h-5 w-5 text-amber-500" />
+            <CardTitle className="flex items-center gap-2 text-white">
+              <Upload className="h-5 w-5 text-[#ffc107]" />
               Enviar Fatura em PDF
             </CardTitle>
-            <CardDescription className="text-gray-600">Envie um arquivo PDF para extrair dados de vendas</CardDescription>
+            <CardDescription className="text-gray-300">Envie um arquivo PDF para extrair dados de vendas</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-amber-500/50 transition">
+              <div className="border-2 border-dashed border-white/20 rounded-lg p-8 text-center hover:border-[#ffc107]/50 transition">
                 <input
                   type="file"
                   accept=".pdf"
@@ -138,22 +138,22 @@ export default function Dashboard() {
                 />
                 <label htmlFor="pdf-upload" className="cursor-pointer">
                   <div className="space-y-2">
-                    <Upload className="h-8 w-8 mx-auto text-amber-500" />
-                    <p className="text-gray-900">
+                    <Upload className="h-8 w-8 mx-auto text-[#ffc107]" />
+                    <p className="text-white">
                       {uploadFile ? uploadFile.name : 'Clique para selecionar ou arraste e solte um arquivo PDF'}
                     </p>
-                    <p className="text-xs text-gray-500">Apenas arquivos PDF</p>
+                    <p className="text-xs text-gray-400">Apenas arquivos PDF</p>
                   </div>
                 </label>
               </div>
               <Button
                 onClick={handleUpload}
                 disabled={!uploadFile || uploading || uploadPDFMutation.isPending}
-                className="w-full bg-amber-500 text-white hover:bg-amber-600"
+                className="w-full bg-[#ffc107] text-[#0a1930] hover:bg-[#ffb300] font-semibold"
               >
                 {uploading || uploadPDFMutation.isPending ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin text-[#0a1930]" />
                     Processando...
                   </>
                 ) : (
@@ -165,10 +165,10 @@ export default function Dashboard() {
         </Card>
 
         {/* Search Section */}
-        <Card className="mb-8 bg-white border-gray-200">
+        <Card className="mb-8 bg-[#1a2a4a] border-white/10">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-gray-900">
-              <Search className="h-5 w-5 text-blue-500" />
+            <CardTitle className="flex items-center gap-2 text-white">
+              <Search className="h-5 w-5 text-[#00bcd4]" />
               Pesquisar Faturas
             </CardTitle>
           </CardHeader>
@@ -177,41 +177,41 @@ export default function Dashboard() {
               placeholder="Pesquise por nome do cliente ou CNPJ..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="bg-gray-50 border-gray-300 text-gray-900 placeholder:text-gray-500"
+              className="bg-[#0a1930] border-white/20 text-white placeholder:text-gray-500"
             />
           </CardContent>
         </Card>
 
         {/* Invoices Table */}
-        <Card className="bg-white border-gray-200">
+        <Card className="bg-[#1a2a4a] border-white/10">
           <CardHeader>
-            <CardTitle className="text-gray-900">Faturas Processadas</CardTitle>
-            <CardDescription className="text-gray-600">{invoices?.length || 0} faturas encontradas</CardDescription>
+            <CardTitle className="text-white">Faturas Processadas</CardTitle>
+            <CardDescription className="text-gray-300">{invoices?.length || 0} faturas encontradas</CardDescription>
           </CardHeader>
           <CardContent>
             {listLoading ? (
               <div className="flex justify-center py-8">
-                <Loader2 className="animate-spin h-8 w-8 text-amber-500" />
+                <Loader2 className="animate-spin h-8 w-8 text-[#ffc107]" />
               </div>
             ) : invoices && invoices.length > 0 ? (
               <div className="overflow-x-auto">
                 <Table>
                   <TableHeader>
-                    <TableRow className="border-gray-200 hover:bg-transparent">
-                      <TableHead className="text-gray-900">ID da Fatura</TableHead>
-                      <TableHead className="text-gray-900">Cliente</TableHead>
-                      <TableHead className="text-gray-900">Agência</TableHead>
-                      <TableHead className="text-gray-900 text-right">Valor Líquido</TableHead>
-                      <TableHead className="text-gray-900">Status</TableHead>
-                      <TableHead className="text-gray-900 text-right">Ações</TableHead>
+                    <TableRow className="border-white/10 hover:bg-transparent">
+                      <TableHead className="text-white">ID da Fatura</TableHead>
+                      <TableHead className="text-white">Cliente</TableHead>
+                      <TableHead className="text-white">Agência</TableHead>
+                      <TableHead className="text-white text-right">Valor Líquido</TableHead>
+                      <TableHead className="text-white">Status</TableHead>
+                      <TableHead className="text-white text-right">Ações</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {invoices.map((invoice) => (
-                      <TableRow key={invoice.id} className="border-gray-200 hover:bg-gray-50">
-                        <TableCell className="font-mono text-amber-600">{invoice.invoiceId}</TableCell>
-                        <TableCell className="text-gray-900">{invoice.clientName}</TableCell>
-                        <TableCell className="text-sm text-gray-600">{invoice.agencyName}</TableCell>
+                      <TableRow key={invoice.id} className="border-white/10 hover:bg-white/5">
+                        <TableCell className="font-mono text-[#ffc107]">{invoice.invoiceId}</TableCell>
+                        <TableCell className="text-white">{invoice.clientName}</TableCell>
+                        <TableCell className="text-sm text-gray-400">{invoice.agencyName}</TableCell>
                         <TableCell className="text-right font-semibold">
                           {formatCurrency(invoice.totalNetAmount)}
                         </TableCell>
@@ -235,7 +235,7 @@ export default function Dashboard() {
                             variant="ghost"
                             size="sm"
                             onClick={() => setLocation(`/invoice/${invoice.invoiceId}`)}
-                            className="text-blue-600 hover:bg-gray-100"
+                            className="text-[#00bcd4] hover:bg-white/10"
                           >
                             <Eye className="h-4 w-4" />
                           </Button>
@@ -254,7 +254,7 @@ export default function Dashboard() {
                 </Table>
               </div>
             ) : (
-              <div className="text-center py-8 text-gray-500">
+              <div className="text-center py-8 text-gray-400">
                 <p>Nenhuma fatura ainda. Envie um PDF para começar.</p>
               </div>
             )}
@@ -263,24 +263,24 @@ export default function Dashboard() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-gray-200 bg-gray-50 mt-12">
+      <footer className="border-t border-white/10 bg-[#0a1930]/80 mt-12">
         <div className="container mx-auto px-4 py-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
-              <h3 className="font-semibold mb-2 text-gray-900">Contato</h3>
-              <p className="text-sm text-gray-600">contato@masterprojectbusiness.com.br</p>
-              <p className="text-sm text-gray-600">+55 (11) 98765-4321</p>
+              <h3 className="font-semibold mb-2 text-white">Contato</h3>
+              <p className="text-sm text-gray-400">contato@masterprojectbusiness.com.br</p>
+              <p className="text-sm text-gray-400">+55 (11) 98765-4321</p>
             </div>
             <div>
-              <h3 className="font-semibold mb-2 text-gray-900">Localização</h3>
-              <p className="text-sm text-gray-600">São Paulo, SP - Brasil</p>
+              <h3 className="font-semibold mb-2 text-white">Localização</h3>
+              <p className="text-sm text-gray-400">São Paulo, SP - Brasil</p>
             </div>
             <div>
-              <h3 className="font-semibold mb-2 text-gray-900">Sistema</h3>
-              <p className="text-sm text-gray-600">Tourism Sales Processor v1.0</p>
+              <h3 className="font-semibold mb-2 text-white">Sistema</h3>
+              <p className="text-sm text-gray-400">Tourism Sales Processor v1.0</p>
             </div>
           </div>
-          <div className="border-t border-gray-200 mt-8 pt-8 text-center text-sm text-gray-500">
+          <div className="border-t border-white/10 mt-8 pt-8 text-center text-sm text-gray-500">
             <p>&copy; 2025 Master Project Business. Todos os direitos reservados.</p>
           </div>
         </div>
