@@ -131,3 +131,8 @@
 - [x] Restaurar design no InvoiceDetail com mesma paleta
 - [x] Melhorar contraste de cores com fundo azul escuro
 - [x] Testar layout completo
+
+
+## Bugs Encontrados
+
+- [x] Corrigir erro de navegação para detalhes de fatura - "Fatura não encontrada" ao clicar em visualizar (regex de invoiceId corrigida)

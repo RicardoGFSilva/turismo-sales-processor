@@ -253,12 +253,15 @@ function calculateTotals(tickets: InsertSalesTicket[]): {
 function extractInvoiceId(text: string, filename?: string): string {
   // Try to extract from filename first (pattern like FTS-SAO00402220250715)
   if (filename) {
-    const match = filename.match(/([A-Z]{3}-[A-Z]{3}\d+\d{8})/);
+    // Remove .pdf extension if present
+    const nameWithoutExt = filename.replace(/\.pdf$/i, '');
+    // Match pattern: FTS-SAO00402220250715 (3 letters, dash, 3 letters, 11 digits)
+    const match = nameWithoutExt.match(/([A-Z]{3}-[A-Z]{3}\d{11})/);
     if (match) return match[1];
   }
 
-  // Try to find in text
-  const match = text.match(/([A-Z]{3}-[A-Z]{3}\d+\d{8})/);
+  // Try to find in text - pattern: FTS-SAO00402220250715
+  const match = text.match(/([A-Z]{3}-[A-Z]{3}\d{11})/);
   if (match) return match[1];
 
   // Fallback to timestamp-based ID
