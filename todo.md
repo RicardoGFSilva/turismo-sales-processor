@@ -50,8 +50,8 @@
 - [ ] Escrever testes unitários para extração de PDF (pdfjs-dist não funciona bem em testes)
 - [ ] Escrever testes para validação de dados
 - [x] Escrever testes para APIs de CRUD
-- [ ] Testar fluxo completo de upload e processamento
-- [ ] Validar precisão da extração com PDF de exemplo
+- [x] Testar fluxo completo de upload e processamento
+- [x] Validar precisão da extração com PDF de exemplo
 
 ### Documentação
 - [ ] Documentar estrutura de dados e schema do banco
@@ -61,9 +61,9 @@
 - [ ] Documentar plataformas de back-office de referência
 
 ### Integração e Deploy
-- [ ] Configurar variáveis de ambiente necessárias
-- [ ] Testar sistema completo end-to-end
-- [ ] Preparar checkpoint para publicação
+- [x] Configurar variáveis de ambiente necessárias
+- [x] Testar sistema completo end-to-end
+- [x] Preparar checkpoint para publicação
 - [ ] Publicar sistema
 
 ## Plataformas de Back-Office de Turismo (Referência)
