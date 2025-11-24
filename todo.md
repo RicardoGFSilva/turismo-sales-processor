@@ -136,3 +136,8 @@
 ## Bugs Encontrados
 
 - [x] Corrigir erro de navegação para detalhes de fatura - "Fatura não encontrada" ao clicar em visualizar (regex de invoiceId corrigida)
+
+
+## Bug Crítico - Fatura Não Encontrada
+
+- [x] Corrigir erro definitivo: fatura processada com sucesso mas não encontrada ao visualizar (FTS-SAO00402220250 vs FTS-SAO00402220250715) - CORRIGIDO: regex ajustada para capturar todos os dígitos
