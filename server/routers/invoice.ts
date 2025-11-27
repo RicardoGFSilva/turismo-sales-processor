@@ -44,13 +44,15 @@ export const invoiceRouter = router({
         // Save to database
         const result = await createInvoiceWithTickets(
           extractedData.invoice,
-          extractedData.tickets
+          extractedData.tickets,
+          extractedData.airlineOperations
         );
 
         return {
           success: true,
           invoice: result.invoice,
           ticketCount: result.tickets.length,
+          operationCount: result.operations.length,
           pdfUrl,
         };
       } catch (error) {
@@ -84,6 +86,7 @@ export const invoiceRouter = router({
         return {
           invoice: result.invoice,
           tickets: result.tickets,
+          operations: result.operations,
           details: result.details,
           pdfUrl,
         };

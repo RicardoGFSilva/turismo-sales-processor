@@ -1,9 +1,10 @@
 import { PDFParse } from 'pdf-parse';
-import { InsertSalesInvoice, InsertSalesTicket } from '../drizzle/schema';
+import { InsertSalesInvoice, InsertSalesTicket, InsertAirlineOperation } from '../drizzle/schema';
 
 export interface ExtractedInvoiceData {
   invoice: InsertSalesInvoice;
   tickets: InsertSalesTicket[];
+  airlineOperations: InsertAirlineOperation[];
   rawText: string;
 }
 
@@ -248,6 +249,109 @@ function calculateTotals(tickets: InsertSalesTicket[]): {
 }
 
 /**
+ * Parse airline operations from extracted text
+ * Extracts data from tables organized by airline with columns:
+ * Passageiro, Rota, Emissão, TKT/LOC, Tarifa R$, Taxa, Cartão/RAV, Comissão, Incentivo, Desconto, Imposto, Fee, TxAdmCt, Líquido, TxDU, Obs
+ */
+function parseAirlineOperations(text: string, invoiceId: string): InsertAirlineOperation[] {
+  const operations: InsertAirlineOperation[] = [];
+  
+  // Split text into lines
+  const lines = text.split('\n');
+  
+  let currentAirline = '';
+  let inOperationsTable = false;
+  
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+    
+    // Skip empty lines
+    if (!line) continue;
+    
+    // Look for airline section headers (e.g., "CIA: AD" or "Cia: AD")
+    const airlineMatch = line.match(/(?:CIA|Cia)\s*:\s*([A-Z]{2})/i);
+    if (airlineMatch) {
+      currentAirline = airlineMatch[1].toUpperCase();
+      inOperationsTable = true;
+      continue;
+    }
+    
+    // Look for table headers containing "Passageiro"
+    if (line.includes('Passageiro') && line.includes('Rota')) {
+      inOperationsTable = true;
+      continue;
+    }
+    
+    // Skip total lines
+    if (line.includes('TOTAL DA CIA') || line.includes('TOTAL')) {
+      inOperationsTable = false;
+      continue;
+    }
+    
+    // Parse data lines - must have airline and be in table
+    if (inOperationsTable && currentAirline && line.length > 30) {
+      const operation = parseAirlineOperationLine(line, currentAirline, invoiceId);
+      if (operation) {
+        operations.push(operation);
+      }
+    }
+  }
+  
+  return operations;
+}
+
+/**
+ * Parse a single airline operation line
+ * Expected format: Passageiro | Rota | Emissão | TKT/LOC | Tarifa | Taxa | Cartão/RAV | Comissão | Incentivo | Desconto | Imposto | Fee | TxAdmCt | Líquido | TxDU | Obs
+ */
+function parseAirlineOperationLine(
+  line: string,
+  airline: string,
+  invoiceId: string
+): InsertAirlineOperation | null {
+  try {
+    // Split by multiple spaces/tabs
+    const fields = line.split(/\s{2,}|\t+/).filter(f => f.trim());
+    
+    // Need at least: Passageiro, Rota, Emissão, TKT/LOC, Tarifa, Taxa, Cartão/RAV, Comissão, Incentivo, Desconto, Imposto, Fee, TxAdmCt, Líquido, TxDU
+    if (fields.length < 15) return null;
+    
+    // Helper function to parse currency
+    const parseCurrency = (value: string): number => {
+      if (!value || value.trim() === '') return 0;
+      // Remove dots (thousands separator) and replace comma with dot
+      const cleaned = value.replace(/\./g, '').replace(',', '.');
+      return Math.round(parseFloat(cleaned) * 100) || 0;
+    };
+    
+    const operation: InsertAirlineOperation = {
+      invoiceId,
+      airline,
+      passengerName: fields[0] || '',
+      route: fields[1] || '',
+      emissionDate: fields[2] || '',
+      ticketNumber: fields[3] || '',
+      tariff: parseCurrency(fields[4]),
+      tax: parseCurrency(fields[5]),
+      cardRAV: parseCurrency(fields[6]),
+      commission: parseCurrency(fields[7]),
+      incentive: parseCurrency(fields[8]),
+      discount: parseCurrency(fields[9]),
+      taxAmount: parseCurrency(fields[10]),
+      fee: parseCurrency(fields[11]),
+      adminFee: parseCurrency(fields[12]),
+      netAmount: parseCurrency(fields[13]),
+      duTax: parseCurrency(fields[14]),
+      observation: fields[15] || undefined,
+    };
+    
+    return operation;
+  } catch (error) {
+    return null;
+  }
+}
+
+/**
  * Extract invoice ID from text or filename
  */
 function extractInvoiceId(text: string, filename?: string): string {
@@ -292,6 +396,9 @@ export async function extractInvoiceFromPDF(
     // Parse tickets
     const tickets = parseTickets(rawText, invoiceId);
 
+    // Parse airline operations
+    const airlineOperations = parseAirlineOperations(rawText, invoiceId);
+
     // Calculate totals
     const totals = calculateTotals(tickets);
 
@@ -316,6 +423,7 @@ export async function extractInvoiceFromPDF(
     return {
       invoice,
       tickets,
+      airlineOperations,
       rawText,
     };
   } catch (error) {

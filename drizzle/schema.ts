@@ -110,6 +110,37 @@ export type InvoiceDetail = typeof invoiceDetails.$inferSelect;
 export type InsertInvoiceDetail = typeof invoiceDetails.$inferInsert;
 
 /**
+ * Airline Operations Table
+ * Stores detailed operations data by airline from invoices
+ */
+export const airlineOperations = mysqlTable("airline_operations", {
+  id: int("id").autoincrement().primaryKey(),
+  invoiceId: varchar("invoiceId", { length: 255 }).notNull(),
+  airline: varchar("airline", { length: 100 }).notNull(), // CIA Aérea
+  passengerName: text("passengerName").notNull(), // Passageiro
+  route: varchar("route", { length: 100 }), // Rota
+  emissionDate: varchar("emissionDate", { length: 20 }), // Emissão
+  ticketNumber: varchar("ticketNumber", { length: 50 }), // TKT/LOC
+  tariff: int("tariff"), // Tarifa R$ (in cents)
+  tax: int("tax"), // Taxa (in cents)
+  cardRAV: int("cardRAV"), // Cartão/RAV (in cents)
+  commission: int("commission"), // Comissão (in cents)
+  incentive: int("incentive"), // Incentivo (in cents)
+  discount: int("discount"), // Desconto (in cents)
+  taxAmount: int("taxAmount"), // Imposto (in cents)
+  fee: int("fee"), // Fee (in cents)
+  adminFee: int("adminFee"), // TxAdmCt (in cents)
+  netAmount: int("netAmount"), // Líquido (in cents)
+  duTax: int("duTax"), // TxDU (in cents)
+  observation: text("observation"), // Obs
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type AirlineOperation = typeof airlineOperations.$inferSelect;
+export type InsertAirlineOperation = typeof airlineOperations.$inferInsert;
+
+/**
  * PDF Mappings Table
  * Stores column mappings for different PDF formats (De-Para)
  */

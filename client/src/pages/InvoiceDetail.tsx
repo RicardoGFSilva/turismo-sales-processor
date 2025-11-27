@@ -295,6 +295,50 @@ export default function InvoiceDetail({ invoiceId }: InvoiceDetailProps) {
           </CardContent>
         </Card>
 
+        {/* Airline Operations */}
+        {invoiceDetails.operations && invoiceDetails.operations.length > 0 && (
+          <Card className="mb-8 bg-[#1a2a4a] border-white/10">
+            <CardHeader>
+              <CardTitle className="text-white">Operações Aéreas ({invoiceDetails.operations.length})</CardTitle>
+              <CardDescription className="text-gray-300">Detalhes das operações por companhia aérea</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="border-white/10">
+                      <TableHead className="text-white">Passageiro</TableHead>
+                      <TableHead className="text-white">Rota</TableHead>
+                      <TableHead className="text-white">Companhia</TableHead>
+                      <TableHead className="text-white">Emissão</TableHead>
+                      <TableHead className="text-white">TKT/LOC</TableHead>
+                      <TableHead className="text-white text-right">Tarifa</TableHead>
+                      <TableHead className="text-white text-right">Taxa</TableHead>
+                      <TableHead className="text-white text-right">Líquido</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {invoiceDetails.operations.map((op, idx) => (
+                      <TableRow key={idx} className="border-white/10 hover:bg-white/5">
+                        <TableCell className="text-white">{op.passengerName}</TableCell>
+                        <TableCell className="text-white">{op.route}</TableCell>
+                        <TableCell className="text-white font-semibold text-[#00bcd4]">{op.airline}</TableCell>
+                        <TableCell className="text-white">{op.emissionDate}</TableCell>
+                        <TableCell className="text-white font-mono text-sm">{op.ticketNumber}</TableCell>
+                        <TableCell className="text-right text-white">{formatCurrency(op.tariff)}</TableCell>
+                        <TableCell className="text-right text-white">{formatCurrency(op.tax)}</TableCell>
+                        <TableCell className="text-right font-semibold text-white">
+                          {formatCurrency(op.netAmount)}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
         {/* Tickets List */}
         <Card className="bg-[#1a2a4a] border-white/10">
           <CardHeader>

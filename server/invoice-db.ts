@@ -3,22 +3,26 @@ import {
   salesInvoices,
   salesTickets,
   invoiceDetails,
+  airlineOperations,
   InsertSalesInvoice,
   InsertSalesTicket,
   InsertInvoiceDetail,
+  InsertAirlineOperation,
   SalesInvoice,
   SalesTicket,
   InvoiceDetail,
+  AirlineOperation,
 } from '../drizzle/schema';
 import { getDb } from './db';
 
 /**
- * Create a new invoice with its tickets
+ * Create a new invoice with its tickets and airline operations
  */
 export async function createInvoiceWithTickets(
   invoice: InsertSalesInvoice,
-  tickets: InsertSalesTicket[]
-): Promise<{ invoice: SalesInvoice; tickets: SalesTicket[] }> {
+  tickets: InsertSalesTicket[],
+  operations?: InsertAirlineOperation[]
+): Promise<{ invoice: SalesInvoice; tickets: SalesTicket[]; operations: AirlineOperation[] }> {
   const db = await getDb();
   if (!db) {
     throw new Error('Database not available');
@@ -31,6 +35,17 @@ export async function createInvoiceWithTickets(
     // Insert tickets
     if (tickets.length > 0) {
       await db.insert(salesTickets).values(tickets);
+    }
+
+    // Insert airline operations
+    let createdOperations: AirlineOperation[] = [];
+    if (operations && operations.length > 0) {
+      await db.insert(airlineOperations).values(operations);
+      const fetchedOps = await db
+        .select()
+        .from(airlineOperations)
+        .where(eq(airlineOperations.invoiceId, invoice.invoiceId));
+      createdOperations = fetchedOps;
     }
 
     // Fetch the created records
@@ -48,6 +63,7 @@ export async function createInvoiceWithTickets(
     return {
       invoice: createdInvoice[0]!,
       tickets: createdTickets,
+      operations: createdOperations,
     };
   } catch (error) {
     console.error('Error creating invoice with tickets:', error);
@@ -56,11 +72,12 @@ export async function createInvoiceWithTickets(
 }
 
 /**
- * Get invoice by ID with all related tickets
+ * Get invoice by ID with all related tickets and operations
  */
 export async function getInvoiceWithTickets(invoiceId: string): Promise<{
   invoice: SalesInvoice | null;
   tickets: SalesTicket[];
+  operations: AirlineOperation[];
   details: InvoiceDetail | null;
 } | null> {
   const db = await getDb();
@@ -84,6 +101,11 @@ export async function getInvoiceWithTickets(invoiceId: string): Promise<{
       .from(salesTickets)
       .where(eq(salesTickets.invoiceId, invoiceId));
 
+    const operations = await db
+      .select()
+      .from(airlineOperations)
+      .where(eq(airlineOperations.invoiceId, invoiceId));
+
     const details = await db
       .select()
       .from(invoiceDetails)
@@ -93,6 +115,7 @@ export async function getInvoiceWithTickets(invoiceId: string): Promise<{
     return {
       invoice: invoice[0],
       tickets,
+      operations,
       details: details[0] || null,
     };
   } catch (error) {
@@ -210,6 +233,11 @@ export async function deleteInvoice(invoiceId: string): Promise<void> {
     await db
       .delete(salesTickets)
       .where(eq(salesTickets.invoiceId, invoiceId));
+
+    // Delete airline operations
+    await db
+      .delete(airlineOperations)
+      .where(eq(airlineOperations.invoiceId, invoiceId));
 
     // Delete details
     await db
