@@ -146,3 +146,8 @@
 ## Bug Crítico - Fatura Não Encontrada
 
 - [x] Corrigir erro definitivo: fatura processada com sucesso mas não encontrada ao visualizar (FTS-SAO00402220250 vs FTS-SAO00402220250715) - CORRIGIDO: regex ajustada para capturar todos os dígitos
+
+## Bugs Encontrados - Sessão Atual
+
+- [ ] Botão Publicar não mostra atualizações recentes do projeto
+- [ ] Fatura não encontrada ao acessar detalhes (getInvoiceWithTickets retorna null)

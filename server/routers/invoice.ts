@@ -4,7 +4,7 @@ import { extractInvoiceFromPDF } from '../pdf-extractor';
 import {
   createInvoiceWithTickets,
   getInvoiceWithTickets,
-  listInvoices,
+  listInvoices as getAllInvoices,
   updateInvoiceDetails,
   updateInvoiceStatus,
   deleteInvoice,
@@ -68,8 +68,15 @@ export const invoiceRouter = router({
     .input(z.object({ invoiceId: z.string() }))
     .query(async ({ input }) => {
       try {
+        console.log('[getInvoice] Received invoiceId:', input.invoiceId);
+        console.log('[getInvoice] invoiceId type:', typeof input.invoiceId);
+        console.log('[getInvoice] invoiceId length:', input.invoiceId.length);
+        
         const result = await getInvoiceWithTickets(input.invoiceId);
+        console.log('[getInvoice] Result from getInvoiceWithTickets:', result ? 'Found' : 'Not found');
+        
         if (!result) {
+          console.error('[getInvoice] Invoice not found for id:', input.invoiceId);
           throw new Error('Invoice not found');
         }
 
@@ -108,7 +115,7 @@ export const invoiceRouter = router({
     )
     .query(async ({ input }) => {
       try {
-        const invoices = await listInvoices(input.limit, input.offset);
+        const invoices = await getAllInvoices(input.limit, input.offset);
         return invoices;
       } catch (error) {
         console.error('Error listing invoices:', error);

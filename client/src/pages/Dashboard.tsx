@@ -207,7 +207,7 @@ export default function Dashboard() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {invoices.map((invoice) => (
+                    {invoices.map((invoice: any) => (
                       <TableRow key={invoice.id} className="border-white/10 hover:bg-white/5">
                         <TableCell className="font-mono text-[#ffc107]">{invoice.invoiceId}</TableCell>
                         <TableCell className="text-white">{invoice.clientName}</TableCell>

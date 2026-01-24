@@ -82,20 +82,26 @@ export async function getInvoiceWithTickets(invoiceId: string): Promise<{
 } | null> {
   const db = await getDb();
   if (!db) {
-    throw new Error('Database not available');
+    console.warn('[getInvoiceWithTickets] Database not available');
+    return null;
   }
 
   try {
-    const invoice = await db
+    // Query invoice using the same pattern as getUserByOpenId
+    const invoiceResult = await db
       .select()
       .from(salesInvoices)
       .where(eq(salesInvoices.invoiceId, invoiceId))
       .limit(1);
 
-    if (!invoice[0]) {
+    if (invoiceResult.length === 0) {
+      console.warn('[getInvoiceWithTickets] Invoice not found for id:', invoiceId);
       return null;
     }
 
+    const invoice = invoiceResult[0];
+
+    // Query related data
     const tickets = await db
       .select()
       .from(salesTickets)
@@ -106,20 +112,20 @@ export async function getInvoiceWithTickets(invoiceId: string): Promise<{
       .from(airlineOperations)
       .where(eq(airlineOperations.invoiceId, invoiceId));
 
-    const details = await db
+    const detailsResult = await db
       .select()
       .from(invoiceDetails)
       .where(eq(invoiceDetails.invoiceId, invoiceId))
       .limit(1);
 
     return {
-      invoice: invoice[0],
+      invoice,
       tickets,
       operations,
-      details: details[0] || null,
+      details: detailsResult.length > 0 ? detailsResult[0] : null,
     };
   } catch (error) {
-    console.error('Error fetching invoice with tickets:', error);
+    console.error('[getInvoiceWithTickets] Error:', error);
     throw error;
   }
 }
