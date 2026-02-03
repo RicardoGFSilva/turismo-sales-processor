@@ -57,7 +57,18 @@ export const invoiceRouter = router({
         };
       } catch (error) {
         console.error('Error uploading PDF:', error);
-        throw new Error('Failed to process PDF file');
+        
+        // Provide user-friendly error messages
+        if (error instanceof Error) {
+          if (error.message.includes('ja existe')) {
+            throw new Error(error.message);
+          }
+          if (error.message.includes('Failed to extract')) {
+            throw new Error('Nao foi possivel extrair dados do PDF. Verifique se o arquivo eh valido.');
+          }
+        }
+        
+        throw new Error('Falha ao processar arquivo PDF. Tente novamente.');
       }
     }),
 

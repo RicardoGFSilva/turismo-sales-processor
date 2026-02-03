@@ -1,0 +1,18 @@
+{
+  "query": "SELECT id, invoiceId, clientName, agencyName, totalNetAmount, createdAt FROM sales_invoices ORDER BY createdAt DESC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4G5GsX3UFFgUn6C.root --database SUwfPETECYogQ7PzhftzTx --execute SELECT id, invoiceId, clientName, agencyName, totalNetAmount, createdAt FROM sales_invoices ORDER BY createdAt DESC;",
+  "rows": [
+    {
+      "id": "300003",
+      "invoiceId": "FTS-SAO00402220250715",
+      "clientName": "FLOR DO NORDESTE VIAGENS LTDA",
+      "agencyName": "FLYTOUR AG DE VIAGENS TURISMO LTDA",
+      "totalNetAmount": "0",
+      "createdAt": "2026-02-03 00:29:51"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tinvoiceId\tclientName\tagencyName\ttotalNetAmount\tcreatedAt\n300003\tFTS-SAO00402220250715\tFLOR DO NORDESTE VIAGENS LTDA\tFLYTOUR AG DE VIAGENS TURISMO LTDA\t0\t2026-02-03 00:29:51\n",
+  "stderr": "",
+  "execution_time_ms": 386
+}

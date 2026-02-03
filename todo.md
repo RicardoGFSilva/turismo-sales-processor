@@ -152,3 +152,14 @@
 - [x] Botão Publicar não mostra atualizações recentes do projeto (CORRIGIDO: checkpoint salvo)
 - [x] Fatura não encontrada ao acessar detalhes (getInvoiceWithTickets retorna null) (CORRIGIDO: adicionada importação de eq)
 - [x] ERRO CRÍTICO: NotFoundError ao importar fatura - 'removeChild' em 'Node' não encontrado (CORRIGIDO: adicionado polyfill e tema dark)
+
+
+## Correções Identificadas na Validação - Sessão Atual
+
+- [x] Implementar verificação de duplicatas de invoiceId antes de inserir fatura (CORRIGIDO: adicionada verificação em createInvoiceWithTickets)
+- [x] Melhorar mensagem de erro quando fatura já existe (Duplicate Entry) (CORRIGIDO: mensagem amigável ao usuário)
+- [ ] Adicionar opção de atualizar fatura existente (próxima iteração)
+- [x] Validar visualização completa de faturas após importação (CORRIGIDO: função getInvoiceWithTickets com eq importado)
+- [ ] Testar fluxo completo: upload → importação → visualização (em progresso)
+- [ ] Implementar feedback visual durante processamento de PDF (próxima iteração)
+- [ ] Adicionar resumo de dados extraídos antes de salvar (próxima iteração)

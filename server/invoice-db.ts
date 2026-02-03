@@ -29,6 +29,18 @@ export async function createInvoiceWithTickets(
   }
 
   try {
+    // Check if invoice already exists
+    const existing = await db
+      .select()
+      .from(salesInvoices)
+      .where(eq(salesInvoices.invoiceId, invoice.invoiceId))
+      .limit(1);
+
+    if (existing.length > 0) {
+      console.warn(`[createInvoiceWithTickets] Fatura ${invoice.invoiceId} já existe no sistema`);
+      throw new Error(`Fatura ${invoice.invoiceId} já existe no sistema. Use a opção de atualizar para modificar dados existentes.`);
+    }
+
     // Insert invoice
     await db.insert(salesInvoices).values(invoice);
 
