@@ -1,0 +1,35 @@
+{
+  "query": "SELECT * FROM sales_invoices WHERE invoiceId = 'FTS-SAO00402220250715' LIMIT 1;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4G5GsX3UFFgUn6C.root --database SUwfPETECYogQ7PzhftzTx --execute SELECT * FROM sales_invoices WHERE invoiceId = 'FTS-SAO00402220250715' LIMIT 1;",
+  "rows": [
+    {
+      "id": "300001",
+      "invoiceId": "FTS-SAO00402220250715",
+      "agencyName": "FLYTOUR AG DE VIAGENS TURISMO LTDA",
+      "agencyCNPJ": "51.757.300/0001-50",
+      "agencyEmail": "faturamento@flytour.com.br",
+      "agencyAddress": "CAMPINAS, 1070 SAO PAULO - SP CEP:01404-200",
+      "clientName": "FLOR DO NORDESTE VIAGENS LTDA",
+      "clientCNPJ": "27.758.181/0001-76",
+      "clientAddress": "RUA ROSSINI ROOSEVELT DE ALBUQUERQUE",
+      "clientCity": "JABOATAO DOS GUARARA",
+      "clientState": "PE",
+      "clientZip": "01404-200",
+      "pdfPath": "invoices/1/1770077324434-FTS-SAO00402220250715.pdf",
+      "totalTariff": "14407",
+      "totalTax": "0",
+      "totalCommission": "1517",
+      "totalIncentive": "0",
+      "totalDiscount": "0",
+      "totalFee": "0",
+      "totalNetAmount": "0",
+      "validationStatus": "valid",
+      "createdAt": "2026-02-03 00:08:45",
+      "updatedAt": "2026-02-03 00:08:45"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tinvoiceId\tagencyName\tagencyCNPJ\tagencyEmail\tagencyAddress\tclientName\tclientCNPJ\tclientAddress\tclientCity\tclientState\tclientZip\tpdfPath\ttotalTariff\ttotalTax\ttotalCommission\ttotalIncentive\ttotalDiscount\ttotalFee\ttotalNetAmount\tvalidationStatus\tcreatedAt\tupdatedAt\n300001\tFTS-SAO00402220250715\tFLYTOUR AG DE VIAGENS TURISMO LTDA\t51.757.300/0001-50\tfaturamento@flytour.com.br\tCAMPINAS, 1070 SAO PAULO - SP CEP:01404-200\tFLOR DO NORDESTE VIAGENS LTDA\t27.758.181/0001-76\tRUA ROSSINI ROOSEVELT DE ALBUQUERQUE\tJABOATAO DOS GUARARA\tPE\t01404-200\tinvoices/1/1770077324434-FTS-SAO00402220250715.pdf\t14407\t0\t1517\t0\t0\t0\t0\tvalid\t2026-02-03 00:08:45\t2026-02-03 00:08:45\n",
+  "stderr": "",
+  "execution_time_ms": 383
+}
