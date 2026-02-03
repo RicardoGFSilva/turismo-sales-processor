@@ -149,5 +149,6 @@
 
 ## Bugs Encontrados - Sessão Atual
 
-- [ ] Botão Publicar não mostra atualizações recentes do projeto
+- [x] Botão Publicar não mostra atualizações recentes do projeto (CORRIGIDO: checkpoint salvo)
 - [ ] Fatura não encontrada ao acessar detalhes (getInvoiceWithTickets retorna null)
+- [x] ERRO CRÍTICO: NotFoundError ao importar fatura - 'removeChild' em 'Node' não encontrado (CORRIGIDO: adicionado polyfill e tema dark)

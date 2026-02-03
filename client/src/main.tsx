@@ -8,6 +8,22 @@ import App from "./App";
 import { getLoginUrl } from "./const";
 import "./index.css";
 
+// Polyfill para proteger removeChild
+if (typeof Element !== 'undefined' && Element.prototype.removeChild) {
+  const originalRemoveChild = Element.prototype.removeChild;
+  Element.prototype.removeChild = function(child: any) {
+    try {
+      if (child && this.contains(child)) {
+        return originalRemoveChild.call(this, child);
+      }
+      return child;
+    } catch (e) {
+      console.warn('removeChild error:', e);
+      return child;
+    }
+  };
+}
+
 const queryClient = new QueryClient();
 
 const redirectToLoginIfUnauthorized = (error: unknown) => {
