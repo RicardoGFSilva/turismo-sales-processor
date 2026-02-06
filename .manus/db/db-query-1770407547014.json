@@ -1,0 +1,40 @@
+{
+  "query": "SELECT id, invoiceId, passengerName, airline, tariff, tax, netAmount FROM sales_tickets WHERE invoiceId = 'FTS-SAO00402220250715' LIMIT 5; SELECT invoiceId, totalTariff, totalTax, totalNetAmount FROM sales_invoices WHERE invoiceId = 'FTS-SAO00402220250715';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4G5GsX3UFFgUn6C.root --database SUwfPETECYogQ7PzhftzTx --execute SELECT id, invoiceId, passengerName, airline, tariff, tax, netAmount FROM sales_tickets WHERE invoiceId = 'FTS-SAO00402220250715' LIMIT 5; SELECT invoiceId, totalTariff, totalTax, totalNetAmount FROM sales_invoices WHERE invoiceId = 'FTS-SAO00402220250715';",
+  "rows": [
+    {
+      "id": "300001",
+      "invoiceId": "FTS-SAO00402220250715",
+      "passengerName": "LLJ22T 767,42",
+      "airline": "AD",
+      "tariff": "9300",
+      "tax": "0",
+      "netAmount": "0"
+    },
+    {
+      "id": "300002",
+      "invoiceId": "FTS-SAO00402220250715",
+      "passengerName": "LA957531 366,03",
+      "airline": "JJ",
+      "tariff": "5107",
+      "tax": "0",
+      "netAmount": "0"
+    },
+    {
+      "id": "300003",
+      "invoiceId": "FTS-SAO00402220250715",
+      "passengerName": "Descrição",
+      "airline": "JJ",
+      "tariff": "0",
+      "tax": "0",
+      "netAmount": "0"
+    }
+  ],
+  "messages": [
+    "invoiceId\ttotalTariff\ttotalTax\ttotalNetAmount",
+    "FTS-SAO00402220250715\t14407\t0\t0"
+  ],
+  "stdout": "id\tinvoiceId\tpassengerName\tairline\ttariff\ttax\tnetAmount\n300001\tFTS-SAO00402220250715\tLLJ22T 767,42\tAD\t9300\t0\t0\n300002\tFTS-SAO00402220250715\tLA957531 366,03\tJJ\t5107\t0\t0\n300003\tFTS-SAO00402220250715\tDescrição\tJJ\t0\t0\t0\ninvoiceId\ttotalTariff\ttotalTax\ttotalNetAmount\nFTS-SAO00402220250715\t14407\t0\t0\n",
+  "stderr": "",
+  "execution_time_ms": 390
+}

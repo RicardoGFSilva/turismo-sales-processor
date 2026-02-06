@@ -1,0 +1,9 @@
+{
+  "query": "DELETE FROM sales_invoices WHERE invoiceId = 'FTS-SAO00402220250715'; DELETE FROM sales_tickets WHERE invoiceId = 'FTS-SAO00402220250715'; DELETE FROM airline_operations WHERE invoiceId = 'FTS-SAO00402220250715';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4G5GsX3UFFgUn6C.root --database SUwfPETECYogQ7PzhftzTx --execute DELETE FROM sales_invoices WHERE invoiceId = 'FTS-SAO00402220250715'; DELETE FROM sales_tickets WHERE invoiceId = 'FTS-SAO00402220250715'; DELETE FROM airline_operations WHERE invoiceId = 'FTS-SAO00402220250715';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 461
+}

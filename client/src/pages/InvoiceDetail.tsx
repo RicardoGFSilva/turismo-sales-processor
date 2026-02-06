@@ -31,9 +31,10 @@ export default function InvoiceDetail({ invoiceId }: InvoiceDetailProps) {
   const [uploading, setUploading] = useState(false);
 
   // Queries
-  const { data: invoiceDetails, isLoading, refetch } = trpc.invoice.getInvoice.useQuery({
-    invoiceId,
-  });
+  const { data: invoiceDetails, isLoading, refetch } = trpc.invoice.getInvoice.useQuery(
+    { invoiceId: invoiceId || '' },
+    { enabled: !!invoiceId } // Only run query if invoiceId exists
+  );
 
   // Mutations
   const updateDetailsMutation = trpc.invoice.updateDetails.useMutation({

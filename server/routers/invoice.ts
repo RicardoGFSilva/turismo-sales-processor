@@ -76,7 +76,7 @@ export const invoiceRouter = router({
    * Get invoice details with all related data
    */
   getInvoice: protectedProcedure
-    .input(z.object({ invoiceId: z.string() }))
+    .input(z.object({ invoiceId: z.string().min(1, 'Invoice ID is required') }))
     .query(async ({ input }) => {
       try {
         console.log('[getInvoice] Received invoiceId:', input.invoiceId);

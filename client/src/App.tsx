@@ -14,7 +14,12 @@ function Router() {
     <Switch>
       <Route path={"\\"} component={Home} />
       <Route path={"/dashboard"} component={Dashboard} />
-      <Route path={"/invoice/:invoiceId"} component={({ invoiceId }: any) => <InvoiceDetail invoiceId={invoiceId} />} />
+      <Route path={"/invoice/:invoiceId"}>
+        {(params: any) => {
+          console.log('[Router] Invoice route params:', params);
+          return <InvoiceDetail invoiceId={params.invoiceId} />;
+        }}
+      </Route>
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

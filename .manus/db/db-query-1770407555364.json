@@ -1,0 +1,31 @@
+{
+  "query": "SELECT passengerName, airline, tariff, tax, netAmount FROM sales_tickets WHERE invoiceId = 'FTS-SAO00402220250715';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4G5GsX3UFFgUn6C.root --database SUwfPETECYogQ7PzhftzTx --execute SELECT passengerName, airline, tariff, tax, netAmount FROM sales_tickets WHERE invoiceId = 'FTS-SAO00402220250715';",
+  "rows": [
+    {
+      "passengerName": "LLJ22T 767,42",
+      "airline": "AD",
+      "tariff": "9300",
+      "tax": "0",
+      "netAmount": "0"
+    },
+    {
+      "passengerName": "LA957531 366,03",
+      "airline": "JJ",
+      "tariff": "5107",
+      "tax": "0",
+      "netAmount": "0"
+    },
+    {
+      "passengerName": "Descrição",
+      "airline": "JJ",
+      "tariff": "0",
+      "tax": "0",
+      "netAmount": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "passengerName\tairline\ttariff\ttax\tnetAmount\nLLJ22T 767,42\tAD\t9300\t0\t0\nLA957531 366,03\tJJ\t5107\t0\t0\nDescrição\tJJ\t0\t0\t0\n",
+  "stderr": "",
+  "execution_time_ms": 347
+}

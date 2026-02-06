@@ -1,0 +1,21 @@
+{
+  "query": "SELECT id, invoiceId, totalTariff, totalTax, totalCommission, totalIncentive, totalDiscount, totalFee, totalNetAmount FROM sales_invoices WHERE invoiceId = 'FTS-SAO00402220250715';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4G5GsX3UFFgUn6C.root --database SUwfPETECYogQ7PzhftzTx --execute SELECT id, invoiceId, totalTariff, totalTax, totalCommission, totalIncentive, totalDiscount, totalFee, totalNetAmount FROM sales_invoices WHERE invoiceId = 'FTS-SAO00402220250715';",
+  "rows": [
+    {
+      "id": "300006",
+      "invoiceId": "FTS-SAO00402220250715",
+      "totalTariff": "14407",
+      "totalTax": "0",
+      "totalCommission": "1517",
+      "totalIncentive": "0",
+      "totalDiscount": "0",
+      "totalFee": "0",
+      "totalNetAmount": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tinvoiceId\ttotalTariff\ttotalTax\ttotalCommission\ttotalIncentive\ttotalDiscount\ttotalFee\ttotalNetAmount\n300006\tFTS-SAO00402220250715\t14407\t0\t1517\t0\t0\t0\t0\n",
+  "stderr": "",
+  "execution_time_ms": 580
+}

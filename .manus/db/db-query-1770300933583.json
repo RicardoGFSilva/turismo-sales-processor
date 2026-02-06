@@ -1,0 +1,13 @@
+{
+  "query": "SELECT COUNT(*) as total_tickets FROM sales_tickets WHERE invoiceId = 'FTS-SAO00402220250715'; SELECT * FROM airline_operations WHERE invoiceId = 'FTS-SAO00402220250715' LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4G5GsX3UFFgUn6C.root --database SUwfPETECYogQ7PzhftzTx --execute SELECT COUNT(*) as total_tickets FROM sales_tickets WHERE invoiceId = 'FTS-SAO00402220250715'; SELECT * FROM airline_operations WHERE invoiceId = 'FTS-SAO00402220250715' LIMIT 5;",
+  "rows": [
+    {
+      "total_tickets": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_tickets\n0\n",
+  "stderr": "",
+  "execution_time_ms": 406
+}
