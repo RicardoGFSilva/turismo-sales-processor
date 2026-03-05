@@ -170,3 +170,15 @@
 - [x] Corrigir erro "Invalid input: expected string, received undefined" no campo invoiceId (CORRIGIDO: adicionado guard em InvoiceDetail.tsx com enabled flag)
 - [x] Melhorar validação do schema em getInvoice procedure (CORRIGIDO: adicionado .min(1) para validar string não vazia)
 - [x] Testar visualização de fatura após correção (CORRIGIDO: fatura abre sem erros)
+
+
+## Validação de Dados - Sessão Atual
+
+- [x] Criar módulo de validação para CNPJs, valores e datas
+- [x] Implementar validação de CNPJ (formato e dígitos verificadores)
+- [x] Implementar validação de valores (não negativos, formato correto)
+- [x] Implementar validação de datas (formato e intervalo válido)
+- [x] Integrar validações no parser de invoice
+- [x] Integrar validações nas procedures de tRPC
+- [x] Adicionar testes unitários para validações
+- [x] Testar fluxo completo com dados inválidos

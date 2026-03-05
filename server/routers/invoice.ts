@@ -11,6 +11,7 @@ import {
   searchInvoices,
 } from '../invoice-db';
 import { uploadPDFFile, uploadAttachmentFile, getFileUrl } from '../file-storage';
+import { validateInvoice, validateCNPJ, validateMonetaryValue } from '../validators';
 
 export const invoiceRouter = router({
   /**
@@ -37,6 +38,27 @@ export const invoiceRouter = router({
 
         // Extract data from PDF
         const extractedData = await extractInvoiceFromPDF(fileBuffer, input.filename);
+
+        // Validate extracted data
+        const validationResult = validateInvoice({
+          invoiceId: extractedData.invoice.invoiceId,
+          agencyName: extractedData.invoice.agencyName,
+          agencyCNPJ: extractedData.invoice.agencyCNPJ,
+          clientName: extractedData.invoice.clientName,
+          clientCNPJ: extractedData.invoice.clientCNPJ,
+          tickets: extractedData.tickets.map(t => ({
+            passengerName: t.passengerName,
+            route: t.route,
+            airline: t.airline,
+            tariff: t.tariff,
+            tax: t.tax,
+          })),
+        });
+
+        if (!validationResult.isValid) {
+          console.error('Validation errors:', validationResult.errors);
+          throw new Error(`Dados inválidos: ${validationResult.errors.join('; ')}`);
+        }
 
         // Update invoice with PDF path
         extractedData.invoice.pdfPath = pdfKey;
@@ -162,6 +184,16 @@ export const invoiceRouter = router({
     )
     .mutation(async ({ input }) => {
       try {
+        // Validate finalClientName if provided
+        if (input.finalClientName) {
+          if (input.finalClientName.trim().length === 0) {
+            throw new Error('Nome do cliente não pode estar vazio');
+          }
+          if (input.finalClientName.length > 200) {
+            throw new Error('Nome do cliente não pode exceder 200 caracteres');
+          }
+        }
+
         const result = await updateInvoiceDetails(input.invoiceId, {
           finalClientName: input.finalClientName,
           notes: input.notes,
@@ -214,19 +246,51 @@ export const invoiceRouter = router({
     }),
 
   /**
-   * Update invoice validation status
+   * Update invoice validation status with automatic validation
    */
   updateStatus: protectedProcedure
     .input(
       z.object({
         invoiceId: z.string(),
-        status: z.enum(['valid', 'warning', 'error', 'pending']),
+        status: z.enum(['valid', 'warning', 'error', 'pending']).optional(),
+        autoValidate: z.boolean().optional(),
       })
     )
     .mutation(async ({ input }) => {
       try {
-        await updateInvoiceStatus(input.invoiceId, input.status);
-        return { success: true };
+        let status = input.status || 'pending';
+
+        // If autoValidate is true, fetch invoice and validate it
+        if (input.autoValidate) {
+          const invoice = await getInvoiceWithTickets(input.invoiceId);
+          if (!invoice || !invoice.invoice) {
+            throw new Error('Invoice not found');
+          }
+
+          const validationResult = validateInvoice({
+            invoiceId: invoice.invoice.invoiceId,
+            agencyName: invoice.invoice.agencyName,
+            agencyCNPJ: invoice.invoice.agencyCNPJ,
+            clientName: invoice.invoice.clientName,
+            clientCNPJ: invoice.invoice.clientCNPJ,
+            tickets: invoice.tickets.map(t => ({
+              passengerName: t.passengerName,
+              route: t.route,
+              airline: t.airline,
+              tariff: t.tariff,
+              tax: t.tax,
+            })),
+          });
+
+          status = validationResult.isValid ? 'valid' : 'error';
+          console.log('[updateStatus] Auto-validation result:', {
+            isValid: validationResult.isValid,
+            errors: validationResult.errors,
+          });
+        }
+
+        await updateInvoiceStatus(input.invoiceId, status);
+        return { success: true, status };
       } catch (error) {
         console.error('Error updating invoice status:', error);
         throw new Error('Failed to update invoice status');
@@ -245,6 +309,47 @@ export const invoiceRouter = router({
       } catch (error) {
         console.error('Error deleting invoice:', error);
         throw new Error('Failed to delete invoice');
+      }
+    }),
+
+  /**
+   * Validate invoice data
+   */
+  validateInvoiceData: protectedProcedure
+    .input(
+      z.object({
+        invoiceId: z.string(),
+      })
+    )
+    .query(async ({ input }) => {
+      try {
+        const invoice = await getInvoiceWithTickets(input.invoiceId);
+        if (!invoice || !invoice.invoice) {
+          throw new Error('Invoice not found');
+        }
+
+        const validationResult = validateInvoice({
+          invoiceId: invoice.invoice.invoiceId,
+          agencyName: invoice.invoice.agencyName,
+          agencyCNPJ: invoice.invoice.agencyCNPJ,
+          clientName: invoice.invoice.clientName,
+          clientCNPJ: invoice.invoice.clientCNPJ,
+          tickets: invoice.tickets.map(t => ({
+            passengerName: t.passengerName,
+            route: t.route,
+            airline: t.airline,
+            tariff: t.tariff,
+            tax: t.tax,
+          })),
+        });
+
+        return {
+          isValid: validationResult.isValid,
+          errors: validationResult.errors,
+        };
+      } catch (error) {
+        console.error('Error validating invoice:', error);
+        throw new Error('Failed to validate invoice');
       }
     }),
 });
