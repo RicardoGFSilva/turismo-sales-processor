@@ -182,3 +182,13 @@
 - [x] Integrar validações nas procedures de tRPC
 - [x] Adicionar testes unitários para validações
 - [x] Testar fluxo completo com dados inválidos
+
+
+## Dashboard de Validação - Nova Sessão
+
+- [x] Estender schema para tabela de validação_logs
+- [x] Criar procedures de tRPC para estatísticas (getValidationStats, getErrorTrends)
+- [x] Implementar página ValidationStats.tsx com gráficos
+- [x] Adicionar rota /validation-stats no App.tsx
+- [x] Integrar dashboard na navegação principal
+- [x] Testar dashboard com dados reais

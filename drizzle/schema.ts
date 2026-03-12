@@ -157,3 +157,23 @@ export const pdfMappings = mysqlTable("pdf_mappings", {
 
 export type PDFMapping = typeof pdfMappings.$inferSelect;
 export type InsertPDFMapping = typeof pdfMappings.$inferInsert;
+
+/**
+ * Validation Logs Table
+ * Stores validation results for each invoice and ticket processing
+ */
+export const validationLogs = mysqlTable("validation_logs", {
+  id: int("id").autoincrement().primaryKey(),
+  invoiceId: varchar("invoiceId", { length: 255 }).notNull(),
+  validationType: mysqlEnum("validationType", ["invoice", "ticket", "field"]).notNull(),
+  fieldName: varchar("fieldName", { length: 100 }),
+  fieldValue: text("fieldValue"),
+  isValid: int("isValid").notNull(), // 1 for valid, 0 for invalid
+  errorCode: varchar("errorCode", { length: 50 }),
+  errorMessage: text("errorMessage"),
+  severity: mysqlEnum("severity", ["error", "warning", "info"]).default("error").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type ValidationLog = typeof validationLogs.$inferSelect;
+export type InsertValidationLog = typeof validationLogs.$inferInsert;
