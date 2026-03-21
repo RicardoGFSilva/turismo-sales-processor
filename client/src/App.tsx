@@ -9,6 +9,8 @@ import Dashboard from "./pages/Dashboard";
 import ValidationStats from "./pages/ValidationStats";
 import InvoiceDetail from "./pages/InvoiceDetail";
 import MetricsDashboard from "./pages/MetricsDashboard";
+import AccountsPayable from "./pages/AccountsPayable";
+import AccountsReceivable from "./pages/AccountsReceivable";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -18,6 +20,8 @@ function Router() {
       <Route path={"/dashboard"} component={Dashboard} />
       <Route path={"/validation-stats"} component={ValidationStats} />
       <Route path={"/metrics-dashboard"} component={MetricsDashboard} />
+      <Route path={"/accounts-payable"} component={AccountsPayable} />
+      <Route path={"/accounts-receivable"} component={AccountsReceivable} />
       <Route path={"/invoice/:invoiceId"}>
         {(params: any) => {
           console.log('[Router] Invoice route params:', params);

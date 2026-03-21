@@ -323,3 +323,158 @@ export async function getProcessingTrendsByAgency(daysBack: number = 30) {
     return null;
   }
 }
+
+
+// Accounts Payable Functions
+import { suppliers, accountsPayable, accountsReceivable, financialAnalysis, reconciliationRecords, InsertAccountPayable, InsertAccountReceivable, InsertSupplier } from "../drizzle/schema";
+
+export async function getAccountsPayable(daysBack: number = 30) {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get accounts payable: database not available");
+    return null;
+  }
+
+  try {
+    const cutoffDate = new Date();
+    cutoffDate.setDate(cutoffDate.getDate() - daysBack);
+
+    const apData = await db.execute(
+      sql`
+        SELECT 
+          ${accountsPayable.id},
+          ${accountsPayable.invoiceId},
+          ${accountsPayable.supplierName},
+          ${accountsPayable.amount},
+          ${accountsPayable.currency},
+          ${accountsPayable.dueDate},
+          ${accountsPayable.paymentDate},
+          ${accountsPayable.status},
+          DATEDIFF(${accountsPayable.dueDate}, NOW()) as daysUntilDue
+        FROM ${accountsPayable}
+        WHERE ${accountsPayable.createdAt} >= ${cutoffDate}
+        ORDER BY ${accountsPayable.dueDate} ASC
+      `
+    ) as any;
+
+    return apData || [];
+  } catch (error) {
+    console.error("[Database] Failed to get accounts payable:", error);
+    return null;
+  }
+}
+
+export async function getAccountsReceivable(daysBack: number = 30) {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get accounts receivable: database not available");
+    return null;
+  }
+
+  try {
+    const cutoffDate = new Date();
+    cutoffDate.setDate(cutoffDate.getDate() - daysBack);
+
+    const arData = await db.execute(
+      sql`
+        SELECT 
+          ${accountsReceivable.id},
+          ${accountsReceivable.invoiceId},
+          ${accountsReceivable.agencyName},
+          ${accountsReceivable.agencyCNPJ},
+          ${accountsReceivable.amount},
+          ${accountsReceivable.currency},
+          ${accountsReceivable.dueDate},
+          ${accountsReceivable.paymentDate},
+          ${accountsReceivable.status},
+          DATEDIFF(${accountsReceivable.dueDate}, NOW()) as daysUntilDue
+        FROM ${accountsReceivable}
+        WHERE ${accountsReceivable.createdAt} >= ${cutoffDate}
+        ORDER BY ${accountsReceivable.dueDate} ASC
+      `
+    ) as any;
+
+    return arData || [];
+  } catch (error) {
+    console.error("[Database] Failed to get accounts receivable:", error);
+    return null;
+  }
+}
+
+export async function getAPSummary() {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get AP summary: database not available");
+    return null;
+  }
+
+  try {
+    const summary = await db.execute(
+      sql`
+        SELECT 
+          COUNT(*) as totalRecords,
+          SUM(CASE WHEN ${accountsPayable.status} = 'pending' THEN 1 ELSE 0 END) as pendingCount,
+          SUM(CASE WHEN ${accountsPayable.status} = 'overdue' THEN 1 ELSE 0 END) as overdueCount,
+          SUM(CASE WHEN ${accountsPayable.status} = 'paid' THEN 1 ELSE 0 END) as paidCount,
+          SUM(CASE WHEN ${accountsPayable.status} = 'pending' THEN ${accountsPayable.amount} ELSE 0 END) as totalPending,
+          SUM(CASE WHEN ${accountsPayable.status} = 'overdue' THEN ${accountsPayable.amount} ELSE 0 END) as totalOverdue
+        FROM ${accountsPayable}
+      `
+    ) as any;
+
+    return summary?.[0] || null;
+  } catch (error) {
+    console.error("[Database] Failed to get AP summary:", error);
+    return null;
+  }
+}
+
+export async function getARSummary() {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get AR summary: database not available");
+    return null;
+  }
+
+  try {
+    const summary = await db.execute(
+      sql`
+        SELECT 
+          COUNT(*) as totalRecords,
+          SUM(CASE WHEN ${accountsReceivable.status} = 'pending' THEN 1 ELSE 0 END) as pendingCount,
+          SUM(CASE WHEN ${accountsReceivable.status} = 'overdue' THEN 1 ELSE 0 END) as overdueCount,
+          SUM(CASE WHEN ${accountsReceivable.status} = 'paid' THEN 1 ELSE 0 END) as paidCount,
+          SUM(CASE WHEN ${accountsReceivable.status} = 'pending' THEN ${accountsReceivable.amount} ELSE 0 END) as totalPending,
+          SUM(CASE WHEN ${accountsReceivable.status} = 'overdue' THEN ${accountsReceivable.amount} ELSE 0 END) as totalOverdue
+        FROM ${accountsReceivable}
+      `
+    ) as any;
+
+    return summary?.[0] || null;
+  } catch (error) {
+    console.error("[Database] Failed to get AR summary:", error);
+    return null;
+  }
+}
+
+export async function getFinancialAnalysisByInvoice(invoiceId: string) {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get financial analysis: database not available");
+    return null;
+  }
+
+  try {
+    const analysis = await db.execute(
+      sql`
+        SELECT * FROM ${financialAnalysis}
+        WHERE ${financialAnalysis.invoiceId} = ${invoiceId}
+      `
+    ) as any;
+
+    return analysis?.[0] || null;
+  } catch (error) {
+    console.error("[Database] Failed to get financial analysis:", error);
+    return null;
+  }
+}

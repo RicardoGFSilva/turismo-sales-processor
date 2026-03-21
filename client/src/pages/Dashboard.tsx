@@ -5,7 +5,7 @@ import { trpc } from '@/lib/trpc';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Loader2, Upload, Search, Eye, Trash2, BarChart3, ChevronLeft, ChevronRight, LineChart } from 'lucide-react';
+import { Loader2, Upload, Search, Eye, Trash2, BarChart3, ChevronLeft, ChevronRight, LineChart, CreditCard, DollarSign } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -132,8 +132,25 @@ export default function Dashboard() {
           </div>
           <div className="flex items-center gap-4">
             <Button
-              onClick={() => setLocation('/metrics-dashboard')}
+              onClick={() => setLocation('/accounts-payable')}
+              className="flex items-center gap-2 bg-[#ef4444] text-white hover:bg-[#dc2626]"
+              size="sm"
+            >
+              <CreditCard className="h-4 w-4" />
+              A Pagar
+            </Button>
+            <Button
+              onClick={() => setLocation('/accounts-receivable')}
               className="flex items-center gap-2 bg-[#10b981] text-white hover:bg-[#0d9370]"
+              size="sm"
+            >
+              <DollarSign className="h-4 w-4" />
+              A Receber
+            </Button>
+            <Button
+              onClick={() => setLocation('/metrics-dashboard')}
+              className="flex items-center gap-2 bg-[#8b5cf6] text-white hover:bg-[#7c3aed]"
+              size="sm"
             >
               <LineChart className="h-4 w-4" />
               Métricas
@@ -141,6 +158,7 @@ export default function Dashboard() {
             <Button
               onClick={() => setLocation('/validation-stats')}
               className="flex items-center gap-2 bg-[#00bcd4] text-[#0a1930] hover:bg-[#00a8b8]"
+              size="sm"
             >
               <BarChart3 className="h-4 w-4" />
               Estatísticas

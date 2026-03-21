@@ -244,3 +244,45 @@
 - [x] Adicionar rota /metrics-dashboard no App.tsx
 - [x] Testar gráficos com dados reais (57 testes passando, 8 pulados)
 - [x] Validar que todos os testes continuam passando
+
+
+## Melhorias de Análise Financeira - Sessão Atual
+
+### Pesquisa e Planejamento
+- [x] Pesquisar ferramentas de gestão financeira para turismo
+- [x] Analisar melhores práticas de AP/AR e reconciliação
+- [x] Estender schema para 5 novas tabelas (suppliers, accountsPayable, accountsReceivable, financialAnalysis, reconciliationRecords)
+
+### Contas a Pagar (AP)
+- [x] Criar tabela de fornecedores (operadoras, consolidadores, etc)
+- [x] Criar tabela de contas a pagar com status e datas
+- [x] Implementar procedure tRPC getAccountsPayable com filtro de dias
+- [x] Criar página de dashboard de AP (AccountsPayable.tsx)
+- [x] Adicionar resumo com cards de estatísticas
+- [x] Implementar tabela com filtro de dias
+
+### Contas a Receber (AR)
+- [x] Criar tabela de contas a receber
+- [x] Implementar procedure tRPC getAccountsReceivable
+- [x] Criar página de dashboard de AR (AccountsReceivable.tsx)
+- [x] Adicionar resumo com cards de estatísticas
+- [x] Implementar tabela com filtro de dias
+
+### Análise Financeira
+- [ ] Implementar análise de rentabilidade por operação
+- [ ] Criar relatório de fluxo de caixa
+- [ ] Implementar análise por fornecedor
+- [ ] Adicionar análise de margens por operação
+- [ ] Criar dashboard de análise financeira
+
+### Reconciliação
+- [ ] Implementar matching automático de faturas
+- [ ] Criar relatório de discrepâncias
+- [ ] Adicionar funcionalidade de reconciliação manual
+- [ ] Implementar histórico de reconciliações
+
+### Relatórios
+- [ ] Criar relatório de balanço patrimonial
+- [ ] Criar relatório de demonstração de resultados
+- [ ] Implementar relatórios customizáveis
+- [ ] Adicionar exportação em PDF/Excel

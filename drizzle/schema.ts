@@ -177,3 +177,121 @@ export const validationLogs = mysqlTable("validation_logs", {
 
 export type ValidationLog = typeof validationLogs.$inferSelect;
 export type InsertValidationLog = typeof validationLogs.$inferInsert;
+
+
+/**
+ * Suppliers/Vendors Table
+ * Stores information about operators, consolidators, and other tourism companies
+ */
+export const suppliers = mysqlTable("suppliers", {
+  id: int("id").autoincrement().primaryKey(),
+  name: text("name").notNull(),
+  cnpj: varchar("cnpj", { length: 20 }).notNull().unique(),
+  email: varchar("email", { length: 320 }),
+  phone: varchar("phone", { length: 20 }),
+  address: text("address"),
+  city: varchar("city", { length: 100 }),
+  state: varchar("state", { length: 2 }),
+  zip: varchar("zip", { length: 10 }),
+  supplierType: mysqlEnum("supplierType", ["operator", "consolidator", "airline", "hotel", "other"]).notNull(),
+  bankAccount: varchar("bankAccount", { length: 50 }),
+  bankCode: varchar("bankCode", { length: 10 }),
+  bankBranch: varchar("bankBranch", { length: 10 }),
+  isActive: int("isActive").default(1).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Supplier = typeof suppliers.$inferSelect;
+export type InsertSupplier = typeof suppliers.$inferInsert;
+
+/**
+ * Accounts Payable Table
+ * Tracks payments owed to suppliers
+ */
+export const accountsPayable = mysqlTable("accounts_payable", {
+  id: int("id").autoincrement().primaryKey(),
+  invoiceId: varchar("invoiceId", { length: 255 }).notNull(),
+  supplierId: int("supplierId").notNull(),
+  supplierName: text("supplierName").notNull(),
+  amount: int("amount").notNull(), // stored in cents
+  currency: varchar("currency", { length: 3 }).default("BRL").notNull(),
+  dueDate: timestamp("dueDate").notNull(),
+  paymentDate: timestamp("paymentDate"),
+  status: mysqlEnum("status", ["pending", "paid", "overdue", "cancelled"]).default("pending").notNull(),
+  paymentMethod: varchar("paymentMethod", { length: 50 }),
+  notes: text("notes"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type AccountPayable = typeof accountsPayable.$inferSelect;
+export type InsertAccountPayable = typeof accountsPayable.$inferInsert;
+
+/**
+ * Accounts Receivable Table
+ * Tracks payments owed by customers/agencies
+ */
+export const accountsReceivable = mysqlTable("accounts_receivable", {
+  id: int("id").autoincrement().primaryKey(),
+  invoiceId: varchar("invoiceId", { length: 255 }).notNull(),
+  agencyName: text("agencyName").notNull(),
+  agencyCNPJ: varchar("agencyCNPJ", { length: 20 }).notNull(),
+  amount: int("amount").notNull(), // stored in cents
+  currency: varchar("currency", { length: 3 }).default("BRL").notNull(),
+  dueDate: timestamp("dueDate").notNull(),
+  paymentDate: timestamp("paymentDate"),
+  status: mysqlEnum("status", ["pending", "paid", "overdue", "cancelled"]).default("pending").notNull(),
+  paymentMethod: varchar("paymentMethod", { length: 50 }),
+  notes: text("notes"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type AccountReceivable = typeof accountsReceivable.$inferSelect;
+export type InsertAccountReceivable = typeof accountsReceivable.$inferInsert;
+
+/**
+ * Financial Analysis Table
+ * Stores profitability analysis by operation/invoice
+ */
+export const financialAnalysis = mysqlTable("financial_analysis", {
+  id: int("id").autoincrement().primaryKey(),
+  invoiceId: varchar("invoiceId", { length: 255 }).notNull().unique(),
+  agencyName: text("agencyName").notNull(),
+  totalRevenue: int("totalRevenue").notNull(), // stored in cents
+  totalCosts: int("totalCosts").notNull(), // stored in cents
+  totalCommissions: int("totalCommissions"), // stored in cents
+  totalIncentives: int("totalIncentives"), // stored in cents
+  totalTaxes: int("totalTaxes"), // stored in cents
+  netProfit: int("netProfit").notNull(), // stored in cents
+  profitMargin: int("profitMargin"), // stored as percentage * 100 (e.g., 15.5% = 1550)
+  currency: varchar("currency", { length: 3 }).default("BRL").notNull(),
+  analysisDate: timestamp("analysisDate").defaultNow().notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type FinancialAnalysis = typeof financialAnalysis.$inferSelect;
+export type InsertFinancialAnalysis = typeof financialAnalysis.$inferInsert;
+
+/**
+ * Reconciliation Records Table
+ * Tracks reconciliation between invoices and payments
+ */
+export const reconciliationRecords = mysqlTable("reconciliation_records", {
+  id: int("id").autoincrement().primaryKey(),
+  invoiceId: varchar("invoiceId", { length: 255 }).notNull(),
+  reconciliationType: mysqlEnum("reconciliationType", ["ap", "ar", "bank"]).notNull(),
+  expectedAmount: int("expectedAmount").notNull(), // stored in cents
+  actualAmount: int("actualAmount").notNull(), // stored in cents
+  discrepancy: int("discrepancy"), // stored in cents
+  status: mysqlEnum("status", ["matched", "unmatched", "partial", "resolved"]).default("unmatched").notNull(),
+  notes: text("notes"),
+  reconciliationDate: timestamp("reconciliationDate").defaultNow().notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type ReconciliationRecord = typeof reconciliationRecords.$inferSelect;
+export type InsertReconciliationRecord = typeof reconciliationRecords.$inferInsert;
