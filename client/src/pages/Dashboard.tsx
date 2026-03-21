@@ -5,7 +5,7 @@ import { trpc } from '@/lib/trpc';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Loader2, Upload, Search, Eye, Trash2, BarChart3 } from 'lucide-react';
+import { Loader2, Upload, Search, Eye, Trash2, BarChart3, ChevronLeft, ChevronRight } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -25,11 +25,14 @@ export default function Dashboard() {
   const [uploading, setUploading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedInvoice, setSelectedInvoice] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   // Queries
+  const offset = (currentPage - 1) * itemsPerPage;
   const { data: invoices, isLoading: listLoading, refetch } = trpc.invoice.listInvoices.useQuery({
-    limit: 50,
-    offset: 0,
+    limit: itemsPerPage,
+    offset: offset,
   });
 
   const { data: invoiceDetails, isLoading: detailsLoading } = trpc.invoice.getInvoice.useQuery(
@@ -80,9 +83,26 @@ export default function Dashboard() {
   };
 
   const handleDelete = (invoiceId: string) => {
-    if (confirm('Are you sure you want to delete this invoice?')) {
+    if (confirm('Tem certeza que deseja deletar esta fatura?')) {
       deleteInvoiceMutation.mutate({ invoiceId });
     }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (invoices && invoices.length === itemsPerPage) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handleItemsPerPageChange = (newLimit: number) => {
+    setItemsPerPage(newLimit);
+    setCurrentPage(1);
   };
 
   const formatCurrency = (cents: number | null | undefined) => {
@@ -194,8 +214,25 @@ export default function Dashboard() {
         {/* Invoices Table */}
         <Card className="bg-[#1a2a4a] border-white/10">
           <CardHeader>
-            <CardTitle className="text-white">Faturas Processadas</CardTitle>
-            <CardDescription className="text-gray-300">{invoices?.length || 0} faturas encontradas</CardDescription>
+            <div className="flex justify-between items-start">
+              <div>
+                <CardTitle className="text-white">Faturas Processadas</CardTitle>
+                <CardDescription className="text-gray-300">{invoices?.length || 0} faturas nesta página</CardDescription>
+              </div>
+              <div className="flex gap-2">
+                {[10, 25, 50].map((limit) => (
+                  <Button
+                    key={limit}
+                    variant={itemsPerPage === limit ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => handleItemsPerPageChange(limit)}
+                    className={itemsPerPage === limit ? 'bg-[#ffc107] text-[#0a1930] hover:bg-[#ffb300]' : 'border-white/20 text-white hover:bg-white/10'}
+                  >
+                    {limit}
+                  </Button>
+                ))}
+              </div>
+            </div>
           </CardHeader>
           <CardContent>
             {listLoading ? (
@@ -261,7 +298,34 @@ export default function Dashboard() {
                     ))}
                   </TableBody>
                 </Table>
+              <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-4">
+                <div className="text-sm text-gray-400">
+                  Página <span className="font-semibold text-white">{currentPage}</span>
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handlePreviousPage}
+                    disabled={currentPage === 1}
+                    className="border-white/20 text-white hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <ChevronLeft className="h-4 w-4 mr-1" />
+                    Anterior
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleNextPage}
+                    disabled={!invoices || invoices.length < itemsPerPage}
+                    className="border-white/20 text-white hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Próximo
+                    <ChevronRight className="h-4 w-4 ml-1" />
+                  </Button>
+                </div>
               </div>
+            </div>
             ) : (
               <div className="text-center py-8 text-gray-400">
                 <p>Nenhuma fatura ainda. Envie um PDF para começar.</p>
