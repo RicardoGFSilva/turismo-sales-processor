@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import ValidationStats from "./pages/ValidationStats";
 import InvoiceDetail from "./pages/InvoiceDetail";
+import MetricsDashboard from "./pages/MetricsDashboard";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -16,6 +17,7 @@ function Router() {
       <Route path={"\\"} component={Home} />
       <Route path={"/dashboard"} component={Dashboard} />
       <Route path={"/validation-stats"} component={ValidationStats} />
+      <Route path={"/metrics-dashboard"} component={MetricsDashboard} />
       <Route path={"/invoice/:invoiceId"}>
         {(params: any) => {
           console.log('[Router] Invoice route params:', params);

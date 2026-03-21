@@ -5,7 +5,7 @@ import { trpc } from '@/lib/trpc';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Loader2, Upload, Search, Eye, Trash2, BarChart3, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Loader2, Upload, Search, Eye, Trash2, BarChart3, ChevronLeft, ChevronRight, LineChart } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -131,6 +131,13 @@ export default function Dashboard() {
             <h1 className="text-xl font-bold text-white">Sistema de Processamento de Vendas de Turismo</h1>
           </div>
           <div className="flex items-center gap-4">
+            <Button
+              onClick={() => setLocation('/metrics-dashboard')}
+              className="flex items-center gap-2 bg-[#10b981] text-white hover:bg-[#0d9370]"
+            >
+              <LineChart className="h-4 w-4" />
+              Métricas
+            </Button>
             <Button
               onClick={() => setLocation('/validation-stats')}
               className="flex items-center gap-2 bg-[#00bcd4] text-[#0a1930] hover:bg-[#00a8b8]"

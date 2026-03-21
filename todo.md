@@ -230,3 +230,17 @@
 - [x] Adicionar seletor de itens por página (10, 25, 50)
 - [x] Testar paginação com múltiplas páginas (57 testes passando, 8 pulados)
 - [x] Validar que todos os testes continuam passando
+
+
+## Dashboard com Gráficos - Sessão Atual
+
+- [x] Analisar estrutura de dados e rotas existentes
+- [x] Criar procedures tRPC para tendências de processamento
+- [x] Criar procedures tRPC para taxa de sucesso por agência
+- [x] Implementar gráfico de linha para tendências diárias
+- [x] Implementar gráfico de barras para taxa de sucesso por agência
+- [x] Criar página de Dashboard com gráficos (MetricsDashboard.tsx)
+- [x] Integrar navegação no menu principal (botão "Métricas" no header)
+- [x] Adicionar rota /metrics-dashboard no App.tsx
+- [x] Testar gráficos com dados reais (57 testes passando, 8 pulados)
+- [x] Validar que todos os testes continuam passando

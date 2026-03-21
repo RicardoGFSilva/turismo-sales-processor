@@ -238,3 +238,88 @@ export async function getValidationTrends(daysBack: number = 30) {
     return null;
   }
 }
+
+
+export async function getAgencySuccessRates(daysBack: number = 30) {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get agency success rates: database not available");
+    return null;
+  }
+
+  try {
+    const cutoffDate = new Date();
+    cutoffDate.setDate(cutoffDate.getDate() - daysBack);
+
+    // Success rate by agency
+    const agencyStats = await db.execute(
+      sql`
+        SELECT 
+          ${salesInvoices.agencyName},
+          COUNT(*) as total,
+          SUM(CASE WHEN ${salesInvoices.validationStatus} = 'valid' THEN 1 ELSE 0 END) as valid,
+          SUM(CASE WHEN ${salesInvoices.validationStatus} = 'warning' THEN 1 ELSE 0 END) as warning,
+          SUM(CASE WHEN ${salesInvoices.validationStatus} = 'error' THEN 1 ELSE 0 END) as error,
+          SUM(CASE WHEN ${salesInvoices.validationStatus} = 'pending' THEN 1 ELSE 0 END) as pending
+        FROM ${salesInvoices}
+        WHERE ${salesInvoices.createdAt} >= ${cutoffDate}
+        GROUP BY ${salesInvoices.agencyName}
+        ORDER BY total DESC
+      `
+    ) as any;
+
+    // Format the results
+    const formattedStats = (agencyStats || []).map((stat: any) => ({
+      agencyName: stat.agencyName,
+      total: stat.total || 0,
+      valid: stat.valid || 0,
+      warning: stat.warning || 0,
+      error: stat.error || 0,
+      pending: stat.pending || 0,
+      successRate: stat.total > 0 ? Math.round(((stat.valid || 0) / stat.total) * 100) : 0,
+    }));
+
+    return {
+      agencyStats: formattedStats,
+      daysBack,
+    };
+  } catch (error) {
+    console.error("[Database] Failed to get agency success rates:", error);
+    return null;
+  }
+}
+
+export async function getProcessingTrendsByAgency(daysBack: number = 30) {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get processing trends by agency: database not available");
+    return null;
+  }
+
+  try {
+    const cutoffDate = new Date();
+    cutoffDate.setDate(cutoffDate.getDate() - daysBack);
+
+    // Daily processing by agency
+    const trends = await db.execute(
+      sql`
+        SELECT 
+          DATE(${salesInvoices.createdAt}) as date,
+          ${salesInvoices.agencyName},
+          COUNT(*) as count
+        FROM ${salesInvoices}
+        WHERE ${salesInvoices.createdAt} >= ${cutoffDate}
+        GROUP BY DATE(${salesInvoices.createdAt}), ${salesInvoices.agencyName}
+        ORDER BY DATE(${salesInvoices.createdAt}), ${salesInvoices.agencyName}
+      `
+    ) as any;
+
+    return {
+      trends: trends || [],
+      daysBack,
+    };
+  } catch (error) {
+    console.error("[Database] Failed to get processing trends by agency:", error);
+    return null;
+  }
+}

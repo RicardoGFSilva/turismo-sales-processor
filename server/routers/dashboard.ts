@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { protectedProcedure, router } from '../_core/trpc';
-import { getValidationStats, getValidationTrends } from '../db';
+import { getValidationStats, getValidationTrends, getAgencySuccessRates, getProcessingTrendsByAgency } from '../db';
 
 export const dashboardRouter = router({
   /**
@@ -69,6 +69,50 @@ export const dashboardRouter = router({
         return {
           dailyInvoices: [],
           dailyErrors: [],
+          daysBack: input.daysBack,
+        };
+      }
+
+      return trends;
+    }),
+
+  /**
+   * Get success rate by agency
+   */
+  getAgencySuccessRates: protectedProcedure
+    .input(
+      z.object({
+        daysBack: z.number().int().min(1).max(365).default(30),
+      })
+    )
+    .query(async ({ input }) => {
+      const stats = await getAgencySuccessRates(input.daysBack);
+      
+      if (!stats) {
+        return {
+          agencyStats: [],
+          daysBack: input.daysBack,
+        };
+      }
+
+      return stats;
+    }),
+
+  /**
+   * Get processing trends by agency
+   */
+  getProcessingTrendsByAgency: protectedProcedure
+    .input(
+      z.object({
+        daysBack: z.number().int().min(1).max(365).default(30),
+      })
+    )
+    .query(async ({ input }) => {
+      const trends = await getProcessingTrendsByAgency(input.daysBack);
+      
+      if (!trends) {
+        return {
+          trends: [],
           daysBack: input.daysBack,
         };
       }
