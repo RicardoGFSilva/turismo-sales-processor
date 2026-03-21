@@ -192,3 +192,13 @@
 - [x] Adicionar rota /validation-stats no App.tsx
 - [x] Integrar dashboard na navegação principal
 - [x] Testar dashboard com dados reais
+
+
+## Correção de Extração de PDF - Sessão Atual
+
+- [x] Corrigir erro "TRPCClientError: Falha ao processar arquivo PDF" (CORRIGIDO: usar file:// URL ao invés de instanciar PDFParse com Buffer)
+- [x] Implementar escrita de buffer em arquivo temporário
+- [x] Usar PDFParse com URL file:// para carregar PDF
+- [x] Limpar arquivo temporário após extração
+- [x] Testar extração com PDF de teste
+- [x] Validar que todos os 57 testes passam (8 pulados)
