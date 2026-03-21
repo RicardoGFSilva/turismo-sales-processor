@@ -125,46 +125,63 @@ export default function Dashboard() {
     <div className="min-h-screen bg-gradient-to-br from-[#0a1930] to-[#1a2a4a] text-white">
       {/* Header */}
       <header className="border-b border-[#ffc107]/20 bg-[#0a1930] p-4">
-        <div className="container mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <img src={APP_LOGO} alt="Logo" className="h-10 w-10" />
-            <h1 className="text-xl font-bold text-white">Sistema de Processamento de Vendas de Turismo</h1>
-          </div>
-          <div className="flex items-center gap-4">
-            <Button
-              onClick={() => setLocation('/accounts-payable')}
-              className="flex items-center gap-2 bg-[#ef4444] text-white hover:bg-[#dc2626]"
-              size="sm"
-            >
-              <CreditCard className="h-4 w-4" />
-              A Pagar
-            </Button>
-            <Button
-              onClick={() => setLocation('/accounts-receivable')}
-              className="flex items-center gap-2 bg-[#10b981] text-white hover:bg-[#0d9370]"
-              size="sm"
-            >
-              <DollarSign className="h-4 w-4" />
-              A Receber
-            </Button>
-            <Button
-              onClick={() => setLocation('/metrics-dashboard')}
-              className="flex items-center gap-2 bg-[#8b5cf6] text-white hover:bg-[#7c3aed]"
-              size="sm"
-            >
-              <LineChart className="h-4 w-4" />
-              Métricas
-            </Button>
-            <Button
-              onClick={() => setLocation('/validation-stats')}
-              className="flex items-center gap-2 bg-[#00bcd4] text-[#0a1930] hover:bg-[#00a8b8]"
-              size="sm"
-            >
-              <BarChart3 className="h-4 w-4" />
-              Estatísticas
-            </Button>
+        <div className="container mx-auto">
+          {/* Top Row: Logo and Title */}
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <img src={APP_LOGO} alt="Logo" className="h-10 w-10" />
+              <h1 className="text-xl font-bold text-white">Sistema de Processamento de Vendas de Turismo</h1>
+            </div>
             <div className="text-sm text-gray-300">
               Conectado como: <span className="font-semibold text-[#00bcd4]">{user?.name || 'Usuário'}</span>
+            </div>
+          </div>
+          
+          {/* Bottom Row: Navigation Buttons */}
+          <div className="flex flex-wrap items-center gap-2 justify-start">
+            {/* Financeiro Group */}
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Financeiro</span>
+              <Button
+                onClick={() => setLocation('/accounts-payable')}
+                className="flex items-center gap-2 bg-[#ef4444] text-white hover:bg-[#dc2626]"
+                size="sm"
+              >
+                <CreditCard className="h-4 w-4" />
+                A Pagar
+              </Button>
+              <Button
+                onClick={() => setLocation('/accounts-receivable')}
+                className="flex items-center gap-2 bg-[#10b981] text-white hover:bg-[#0d9370]"
+                size="sm"
+              >
+                <DollarSign className="h-4 w-4" />
+                A Receber
+              </Button>
+            </div>
+            
+            {/* Separator */}
+            <div className="w-px h-6 bg-white/20"></div>
+            
+            {/* Análise Group */}
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Análise</span>
+              <Button
+                onClick={() => setLocation('/metrics-dashboard')}
+                className="flex items-center gap-2 bg-[#8b5cf6] text-white hover:bg-[#7c3aed]"
+                size="sm"
+              >
+                <LineChart className="h-4 w-4" />
+                Métricas
+              </Button>
+              <Button
+                onClick={() => setLocation('/validation-stats')}
+                className="flex items-center gap-2 bg-[#00bcd4] text-[#0a1930] hover:bg-[#00a8b8]"
+                size="sm"
+              >
+                <BarChart3 className="h-4 w-4" />
+                Estatísticas
+              </Button>
             </div>
           </div>
         </div>
