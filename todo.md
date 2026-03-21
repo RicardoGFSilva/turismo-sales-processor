@@ -194,7 +194,7 @@
 - [x] Testar dashboard com dados reais
 
 
-## Correção de Extração de PDF - Sessão Atual
+## Correção de Extração de PDF - Sessão Anterior
 
 - [x] Corrigir erro "TRPCClientError: Falha ao processar arquivo PDF" (CORRIGIDO: usar file:// URL ao invés de instanciar PDFParse com Buffer)
 - [x] Implementar escrita de buffer em arquivo temporário
@@ -202,3 +202,20 @@
 - [x] Limpar arquivo temporário após extração
 - [x] Testar extração com PDF de teste
 - [x] Validar que todos os 57 testes passam (8 pulados)
+
+## Melhorias de UI na Página de Estatísticas - Sessão Atual
+
+- [x] Adicionar tema escuro (fundo azul escuro #0a1930) na página ValidationStats
+- [x] Atualizar cores dos cards para combinar com o tema (fundo #1a2a4a, bordas brancas)
+- [x] Atualizar cores dos ícones para verde água (#00bcd4), verde claro, vermelho claro, amarelo claro
+- [x] Adicionar container com max-width para melhor layout
+- [x] Manter consistência visual com o Dashboard
+
+
+## Correção de Navegação - Sessão Atual
+
+- [x] Adicionar botão de retorno/saída em InvoiceDetail.tsx (já existia)
+- [x] Adicionar botão de retorno/saída em ValidationStats.tsx (CORRIGIDO: adicionado botão "Voltar ao Dashboard" com ícone ArrowLeft)
+- [x] Verificar se Dashboard.tsx tem navegação adequada (tem botão "Estatísticas" no header)
+- [x] Testar navegação entre todas as telas (testes passando)
+- [x] Validar que todos os botões funcionam corretamente (validado no código)
