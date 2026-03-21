@@ -147,16 +147,16 @@ export default function Dashboard() {
                 className="flex items-center gap-2 bg-[#ef4444] text-white hover:bg-[#dc2626]"
                 size="sm"
               >
-                <CreditCard className="h-4 w-4" />
-                A Pagar
+              <CreditCard className="h-4 w-4" />
+              Contas a Pagar
               </Button>
               <Button
                 onClick={() => setLocation('/accounts-receivable')}
                 className="flex items-center gap-2 bg-[#10b981] text-white hover:bg-[#0d9370]"
                 size="sm"
               >
-                <DollarSign className="h-4 w-4" />
-                A Receber
+              <DollarSign className="h-4 w-4" />
+              Contas a Receber
               </Button>
             </div>
             

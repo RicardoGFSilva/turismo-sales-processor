@@ -297,3 +297,11 @@
 - [x] Implementar responsividade para mobile (flex-wrap)
 - [x] Testar cabeçalho em diferentes resoluções (57 testes passando)
 - [x] Validar que todos os botões funcionam corretamente (validado no código)
+
+
+## Correção de Rótulos dos Botões - Sessão Atual
+
+- [x] Corrigir "Um Pagar" para "Contas a Pagar" (CORRIGIDO no Dashboard.tsx)
+- [x] Corrigir "Ar" para "Contas a Receber" (CORRIGIDO no Dashboard.tsx)
+- [x] Testar rótulos em todas as páginas (57 testes passando, 8 pulados)
+- [x] Validar que todos os testes continuam passando
