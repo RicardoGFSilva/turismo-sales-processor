@@ -1,7 +1,8 @@
-import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { InsertUser, users, passwordResetTokens, userPermissions } from "../drizzle/schema";
+import { eq, gt, isNull } from "drizzle-orm";
 import { ENV } from './_core/env';
+import crypto from 'crypto';
 
 let _db: ReturnType<typeof drizzle> | null = null;
 
@@ -477,4 +478,112 @@ export async function getFinancialAnalysisByInvoice(invoiceId: string) {
     console.error("[Database] Failed to get financial analysis:", error);
     return null;
   }
+}
+
+
+/**
+ * Authentication Functions
+ */
+
+export async function hashPassword(password: string): Promise<string> {
+  return crypto.createHash('sha256').update(password).digest('hex');
+}
+
+export async function verifyPassword(password: string, hash: string): Promise<boolean> {
+  const passwordHash = await hashPassword(password);
+  return passwordHash === hash;
+}
+
+export async function generateResetToken(): Promise<string> {
+  return crypto.randomBytes(32).toString('hex');
+}
+
+export async function getUserByEmail(email: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(users).where(eq(users.email, email)).limit(1);
+}
+
+export async function getUserById(id: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(users).where(eq(users.id, id)).limit(1);
+}
+
+export async function createPasswordResetToken(userId: number, expiresInHours: number = 24) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const token = await generateResetToken();
+  const expiresAt = new Date(Date.now() + expiresInHours * 60 * 60 * 1000);
+  
+  return db.insert(passwordResetTokens).values({
+    userId,
+    token,
+    expiresAt,
+  });
+}
+
+export async function getValidPasswordResetToken(token: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db
+    .select()
+    .from(passwordResetTokens)
+    .where(
+      and(
+        eq(passwordResetTokens.token, token),
+        gt(passwordResetTokens.expiresAt, new Date()),
+        isNull(passwordResetTokens.usedAt)
+      )
+    )
+    .limit(1);
+  
+  return result[0] || null;
+}
+
+export async function markPasswordResetTokenAsUsed(tokenId: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  return db
+    .update(passwordResetTokens)
+    .set({ usedAt: new Date() })
+    .where(eq(passwordResetTokens.id, tokenId));
+}
+
+export async function updateUserPassword(userId: number, passwordHash: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  return db
+    .update(users)
+    .set({ 
+      passwordHash,
+      localAuthEnabled: 1,
+    })
+    .where(eq(users.id, userId));
+}
+
+export async function getUserPermissions(userId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return db
+    .select({ permission: userPermissions.permission })
+    .from(userPermissions)
+    .where(eq(userPermissions.userId, userId));
+}
+
+export async function hasPermission(userId: number, permission: string): Promise<boolean> {
+  const user = await getUserById(userId);
+  if (!user || !user[0]) return false;
+  
+  // admin_master has all permissions
+  if (user[0].role === 'admin_master') return true;
+  
+  // Check specific permissions
+  const permissions = await getUserPermissions(userId);
+  return permissions.some((p: any) => p.permission === permission);
 }

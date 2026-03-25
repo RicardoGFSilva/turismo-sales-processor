@@ -19,8 +19,9 @@ import { toast } from 'sonner';
 import { APP_LOGO, APP_TITLE } from '@/const';
 
 export default function Dashboard() {
-  const { user, loading: authLoading } = useAuth();
+  const { user, loading: authLoading } = useAuth({ redirectOnUnauthenticated: true, redirectPath: '/login' });
   const [, setLocation] = useLocation();
+  const { data: permissions } = trpc.auth.getPermissions.useQuery(undefined, { enabled: !!user });
   const [uploadFile, setUploadFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -121,6 +122,15 @@ export default function Dashboard() {
     );
   }
 
+  // Redirect if not authenticated
+  if (!user) {
+    setLocation('/login');
+    return null;
+  }
+
+  // Check if user has permission to access metrics
+  const canAccessMetrics = permissions?.canAccessMetrics ?? false;
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0a1930] to-[#1a2a4a] text-white">
       {/* Header */}
@@ -164,6 +174,7 @@ export default function Dashboard() {
             <div className="w-px h-6 bg-white/20"></div>
             
             {/* Análise Group */}
+            {canAccessMetrics && (
             <div className="flex items-center gap-2">
               <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Análise</span>
               <Button
@@ -183,6 +194,7 @@ export default function Dashboard() {
                 Estatísticas
               </Button>
             </div>
+            )}
           </div>
         </div>
       </header>

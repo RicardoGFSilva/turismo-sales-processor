@@ -11,12 +11,16 @@ import InvoiceDetail from "./pages/InvoiceDetail";
 import MetricsDashboard from "./pages/MetricsDashboard";
 import AccountsPayable from "./pages/AccountsPayable";
 import AccountsReceivable from "./pages/AccountsReceivable";
+import Login from "./pages/Login";
+import ForgotPassword from "./pages/ForgotPassword";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
       <Route path={"\\"} component={Home} />
+      <Route path={"/login"} component={Login} />
+      <Route path={"/forgot-password"} component={ForgotPassword} />
       <Route path={"/dashboard"} component={Dashboard} />
       <Route path={"/validation-stats"} component={ValidationStats} />
       <Route path={"/metrics-dashboard"} component={MetricsDashboard} />

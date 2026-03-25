@@ -1,4 +1,4 @@
-import { int, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
+import { int, mysqlEnum, mysqlTable, text, timestamp, varchar, tinyint } from "drizzle-orm/mysql-core";
 
 /**
  * Core user table backing auth flow.
@@ -16,7 +16,11 @@ export const users = mysqlTable("users", {
   name: text("name"),
   email: varchar("email", { length: 320 }),
   loginMethod: varchar("loginMethod", { length: 64 }),
-  role: mysqlEnum("role", ["user", "admin"]).default("user").notNull(),
+  role: mysqlEnum("role", ["user", "admin", "admin_master"]).default("user").notNull(),
+  /** Password hash for local authentication */
+  passwordHash: text("passwordHash"),
+  /** Whether user can login with local credentials */
+  localAuthEnabled: tinyint("localAuthEnabled").default(0).notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
   lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull(),
@@ -295,3 +299,33 @@ export const reconciliationRecords = mysqlTable("reconciliation_records", {
 
 export type ReconciliationRecord = typeof reconciliationRecords.$inferSelect;
 export type InsertReconciliationRecord = typeof reconciliationRecords.$inferInsert;
+
+/**
+ * Password Reset Tokens Table
+ * Stores tokens for password recovery
+ */
+export const passwordResetTokens = mysqlTable("password_reset_tokens", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  token: varchar("token", { length: 255 }).notNull().unique(),
+  expiresAt: timestamp("expiresAt").notNull(),
+  usedAt: timestamp("usedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type PasswordResetToken = typeof passwordResetTokens.$inferSelect;
+export type InsertPasswordResetToken = typeof passwordResetTokens.$inferInsert;
+
+/**
+ * User Permissions Table
+ * Defines what features each user can access
+ */
+export const userPermissions = mysqlTable("user_permissions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  permission: varchar("permission", { length: 100 }).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type UserPermission = typeof userPermissions.$inferSelect;
+export type InsertUserPermission = typeof userPermissions.$inferInsert;

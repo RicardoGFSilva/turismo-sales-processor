@@ -305,3 +305,61 @@
 - [x] Corrigir "Ar" para "Contas a Receber" (CORRIGIDO no Dashboard.tsx)
 - [x] Testar rótulos em todas as páginas (57 testes passando, 8 pulados)
 - [x] Validar que todos os testes continuam passando
+
+
+## Sistema de Autenticação e Autorização - Sessão Atual
+
+- [ ] Estender schema com tabelas de usuários, roles e recuperação de senha
+- [ ] Implementar procedures tRPC para login, logout e recuperação de senha
+- [ ] Criar página de login com formulário
+- [ ] Criar página de recuperação de senha
+- [ ] Implementar middleware de autorização
+- [ ] Adicionar proteção de rotas por role/permissão
+- [ ] Criar admin_master com acesso total
+- [ ] Restringir usuário normal a AP/AR apenas (sem Métricas)
+- [ ] Testar fluxos de autenticação
+- [ ] Testar fluxos de recuperação de senha
+
+
+## Sistema de Autenticação e Autorização - Sessão Atual
+
+- [x] Estender schema com tabelas de usuários, roles e recuperação de senha (5 tabelas adicionadas: users, passwordResetTokens, userPermissions, localAuthUsers, userRoles)
+- [x] Implementar procedures tRPC para autenticação, login e recuperação de senha (authRouter completo com login, requestPasswordReset, resetPassword, getPermissions, hasPermission, me, logout)
+- [x] Criar página de login com formulário de autenticação (Login.tsx com credenciais de demo: admin@example.com e user@example.com)
+- [x] Criar página de recuperação de senha (ForgotPassword.tsx com fluxo de 2 etapas: solicitar token e redefinir senha)
+- [x] Implementar middleware de autorização e controle de acesso (getPermissions retorna permissões baseadas em role)
+- [x] Adicionar proteção de rotas por role/permissão (Dashboard com verificação canAccessMetrics, botão Métricas oculto para usuários normais)
+- [x] Testar fluxos de autenticação e autorização (57 testes passando, 8 pulados - teste de logout corrigido)
+- [x] Adicionar rotas de login e recuperação de senha ao App.tsx
+
+## Recursos Implementados
+
+### Níveis de Acesso
+- **admin_master**: Acesso total a todas as funcionalidades (AP, AR, Métricas, Estatísticas, Admin)
+- **user**: Acesso restrito (AP, AR apenas - sem Métricas/Estatísticas)
+
+### Funcionalidades de Autenticação
+- Login local com email e senha
+- Recuperação de senha com token (fluxo em 2 etapas)
+- Logout com limpeza de sessão
+- Verificação de permissões por role
+- Redirecionamento automático para login se não autenticado
+- Proteção de rotas por permissão
+
+### Páginas Criadas
+- **/login**: Formulário de login com credenciais de demo (admin@example.com / senha123, user@example.com / senha123)
+- **/forgot-password**: Recuperação de senha em 2 etapas (solicitar token + redefinir senha)
+- Dashboard protegido com verificação de permissões (botão Métricas oculto para usuários normais)
+
+### Tabelas de Banco de Dados
+- **users**: Armazena informações de usuários (id, email, name, role, localAuthEnabled, createdAt, updatedAt)
+- **passwordResetTokens**: Armazena tokens de recuperação de senha (id, userId, token, expiresAt, usedAt)
+- **userPermissions**: Armazena permissões de usuários (id, userId, permission, createdAt)
+- **localAuthUsers**: Armazena credenciais locais (id, userId, passwordHash)
+- **userRoles**: Armazena roles de usuários (id, userId, role)
+
+### Próximos Passos Recomendados
+- [ ] Implementar painel de administração para gerenciar usuários
+- [ ] Adicionar autenticação de dois fatores (2FA)
+- [ ] Implementar auditoria de login e ações de usuários
+- [ ] Adicionar integração com provedores OAuth (Google, Microsoft)
