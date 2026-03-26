@@ -38,7 +38,7 @@ export default function ValidationStats() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#050505] to-[#121212] text-white p-8">
+    <div className="min-h-screen bg-background bg-gradient-to-br from-[#050505] to-[#121212] text-white p-8">
       <div className="container mx-auto max-w-6xl space-y-8">
       {/* Header */}
       <div className="flex justify-between items-start">
@@ -70,7 +70,7 @@ export default function ValidationStats() {
 
       {/* KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="bg-[#121212] border-[#D4AF37]/30">
+        <Card className="card bg-[#121212] border-[#D4AF37]/30">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-gray-300">Total de Faturas</CardTitle>
           </CardHeader>
@@ -82,7 +82,7 @@ export default function ValidationStats() {
           </CardContent>
         </Card>
 
-        <Card className="bg-[#121212] border-[#D4AF37]/30">
+        <Card className="card bg-[#121212] border-[#D4AF37]/30">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-gray-300">Taxa de Sucesso</CardTitle>
           </CardHeader>
@@ -94,7 +94,7 @@ export default function ValidationStats() {
           </CardContent>
         </Card>
 
-        <Card className="bg-[#121212] border-[#D4AF37]/30">
+        <Card className="card bg-[#121212] border-[#D4AF37]/30">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-gray-300">Taxa de Erro</CardTitle>
           </CardHeader>
@@ -106,7 +106,7 @@ export default function ValidationStats() {
           </CardContent>
         </Card>
 
-        <Card className="bg-[#121212] border-[#D4AF37]/30">
+        <Card className="card bg-[#121212] border-[#D4AF37]/30">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-gray-300">Avisos</CardTitle>
           </CardHeader>
@@ -122,7 +122,7 @@ export default function ValidationStats() {
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Status Distribution */}
-        <Card className="bg-[#121212] border-[#D4AF37]/30">
+        <Card className="card bg-[#121212] border-[#D4AF37]/30">
           <CardHeader>
             <CardTitle className="text-white">Distribuição por Status</CardTitle>
             <CardDescription className="text-gray-300">Faturas processadas por status de validação</CardDescription>
@@ -157,7 +157,7 @@ export default function ValidationStats() {
         </Card>
 
         {/* Validation Logs by Severity */}
-        <Card className="bg-[#121212] border-[#D4AF37]/30">
+        <Card className="card bg-[#121212] border-[#D4AF37]/30">
           <CardHeader>
             <CardTitle className="text-white">Logs de Validação por Severidade</CardTitle>
             <CardDescription className="text-gray-300">Distribuição de erros, avisos e informações</CardDescription>
@@ -185,7 +185,7 @@ export default function ValidationStats() {
       {/* Trends */}
       <div className="grid grid-cols-1 gap-6">
         {/* Daily Invoices */}
-        <Card className="bg-[#121212] border-[#D4AF37]/30">
+        <Card className="card bg-[#121212] border-[#D4AF37]/30">
           <CardHeader>
             <CardTitle className="text-white">Tendência de Faturas Diárias</CardTitle>
             <CardDescription className="text-gray-300">Número de faturas processadas por dia</CardDescription>
@@ -211,7 +211,7 @@ export default function ValidationStats() {
         </Card>
 
         {/* Daily Errors */}
-        <Card className="bg-[#121212] border-[#D4AF37]/30">
+        <Card className="card bg-[#121212] border-[#D4AF37]/30">
           <CardHeader>
             <CardTitle className="text-white">Tendência de Erros Diários</CardTitle>
             <CardDescription className="text-gray-300">Número de erros de validação por dia</CardDescription>
@@ -240,7 +240,7 @@ export default function ValidationStats() {
       {/* Common Errors and Fields with Errors */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Most Common Errors */}
-        <Card className="bg-[#121212] border-[#D4AF37]/30">
+        <Card className="card bg-[#121212] border-[#D4AF37]/30">
           <CardHeader>
             <CardTitle className="text-white">Erros Mais Comuns</CardTitle>
             <CardDescription className="text-gray-300">Top 10 erros de validação</CardDescription>
@@ -269,7 +269,7 @@ export default function ValidationStats() {
         </Card>
 
         {/* Fields with Most Errors */}
-        <Card className="bg-[#121212] border-[#D4AF37]/30">
+        <Card className="card bg-[#121212] border-[#D4AF37]/30">
           <CardHeader>
             <CardTitle className="text-white">Campos com Mais Erros</CardTitle>
             <CardDescription className="text-gray-300">Campos que mais causam erros de validação</CardDescription>

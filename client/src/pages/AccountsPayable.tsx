@@ -73,7 +73,7 @@ export default function AccountsPayable() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#050505] to-[#121212] text-white p-8">
+    <div className="min-h-screen bg-background bg-gradient-to-br from-[#050505] to-[#121212] text-white p-8">
       <div className="container mx-auto max-w-7xl space-y-8">
         {/* Header */}
         <div className="flex justify-between items-start">
@@ -106,7 +106,7 @@ export default function AccountsPayable() {
 
         {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card className="bg-[#121212] border-[#D4AF37]/30">
+          <Card className="card bg-[#121212] border-[#D4AF37]/30">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-gray-300 flex items-center gap-2">
                 <Clock className="h-4 w-4 text-yellow-400" />
@@ -119,7 +119,7 @@ export default function AccountsPayable() {
             </CardContent>
           </Card>
 
-          <Card className="bg-[#121212] border-[#D4AF37]/30">
+          <Card className="card bg-[#121212] border-[#D4AF37]/30">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-gray-300 flex items-center gap-2">
                 <AlertCircle className="h-4 w-4 text-red-400" />
@@ -132,7 +132,7 @@ export default function AccountsPayable() {
             </CardContent>
           </Card>
 
-          <Card className="bg-[#121212] border-[#D4AF37]/30">
+          <Card className="card bg-[#121212] border-[#D4AF37]/30">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-gray-300 flex items-center gap-2">
                 <CheckCircle className="h-4 w-4 text-green-400" />
@@ -144,7 +144,7 @@ export default function AccountsPayable() {
             </CardContent>
           </Card>
 
-          <Card className="bg-[#121212] border-[#D4AF37]/30">
+          <Card className="card bg-[#121212] border-[#D4AF37]/30">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-gray-300">Total</CardTitle>
             </CardHeader>
@@ -155,7 +155,7 @@ export default function AccountsPayable() {
         </div>
 
         {/* Accounts Payable Table */}
-        <Card className="bg-[#121212] border-[#D4AF37]/30">
+        <Card className="card bg-[#121212] border-[#D4AF37]/30">
           <CardHeader>
             <CardTitle className="text-white">Registros de Contas a Pagar</CardTitle>
             <CardDescription className="text-gray-300">Últimos {daysBack} dias</CardDescription>

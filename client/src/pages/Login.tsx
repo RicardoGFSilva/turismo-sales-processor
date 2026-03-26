@@ -36,8 +36,8 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen animate-fade-in bg-gradient-to-br from-[#050505] to-[#121212] flex items-center justify-center p-4">
-      <Card className="w-full animate-scale-in max-w-md bg-[#121212] border-[#D4AF37]/30 border-2">
+    <div className="min-h-screen bg-background animate-fade-in bg-gradient-to-br from-[#050505] to-[#121212] flex items-center justify-center p-4">
+      <Card className="card w-full animate-scale-in max-w-md bg-[#121212] border-[#D4AF37]/30 border-2">
         <CardHeader className="text-center">
           <div className="flex justify-center mb-4">
             <img src={APP_LOGO} alt="Logo" className="h-16 w-16" />

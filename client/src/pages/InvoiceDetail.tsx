@@ -112,7 +112,7 @@ export default function InvoiceDetail({ invoiceId }: InvoiceDetailProps) {
 
   if (!invoiceDetails) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#050505] to-[#121212] text-white p-8">
+      <div className="min-h-screen bg-background bg-gradient-to-br from-[#050505] to-[#121212] text-white p-8">
         <div className="text-center">
           <p>Fatura não encontrada</p>
           <Button onClick={() => setLocation('/dashboard')} className="mt-4 bg-[#ffc107] text-[#050505] hover:bg-[#ffb300]">
@@ -124,7 +124,7 @@ export default function InvoiceDetail({ invoiceId }: InvoiceDetailProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#050505] to-[#121212] text-white p-8">
+    <div className="min-h-screen bg-background bg-gradient-to-br from-[#050505] to-[#121212] text-white p-8">
       <div className="container mx-auto max-w-4xl">
         {/* Header */}
         <div className="mb-8">
@@ -140,7 +140,7 @@ export default function InvoiceDetail({ invoiceId }: InvoiceDetailProps) {
         </div>
 
         {/* Invoice Summary */}
-        <Card className="mb-8 bg-[#121212] border-[#D4AF37]/30">
+        <Card className="card mb-8 bg-[#121212] border-[#D4AF37]/30">
           <CardHeader>
             <CardTitle className="text-white">Resumo da Fatura</CardTitle>
           </CardHeader>
@@ -169,7 +169,7 @@ export default function InvoiceDetail({ invoiceId }: InvoiceDetailProps) {
         </Card>
 
         {/* Client Details Form */}
-        <Card className="mb-8 bg-[#121212] border-[#D4AF37]/30">
+        <Card className="card mb-8 bg-[#121212] border-[#D4AF37]/30">
           <CardHeader>
             <CardTitle className="text-white">Detalhes do Cliente</CardTitle>
             <CardDescription className="text-gray-300">Adicione informações adicionais sobre o cliente final</CardDescription>
@@ -214,7 +214,7 @@ export default function InvoiceDetail({ invoiceId }: InvoiceDetailProps) {
         </Card>
 
         {/* Attachments */}
-        <Card className="mb-8 bg-[#121212] border-[#D4AF37]/30">
+        <Card className="card mb-8 bg-[#121212] border-[#D4AF37]/30">
           <CardHeader>
             <CardTitle className="text-white">Anexos</CardTitle>
             <CardDescription className="text-gray-300">Envie vouchers e bilhetes</CardDescription>
@@ -298,7 +298,7 @@ export default function InvoiceDetail({ invoiceId }: InvoiceDetailProps) {
 
         {/* Airline Operations */}
         {invoiceDetails.operations && invoiceDetails.operations.length > 0 && (
-          <Card className="mb-8 bg-[#121212] border-[#D4AF37]/30">
+          <Card className="card mb-8 bg-[#121212] border-[#D4AF37]/30">
             <CardHeader>
               <CardTitle className="text-white">Operações Aéreas ({invoiceDetails.operations.length})</CardTitle>
               <CardDescription className="text-gray-300">Detalhes das operações por companhia aérea</CardDescription>
@@ -341,7 +341,7 @@ export default function InvoiceDetail({ invoiceId }: InvoiceDetailProps) {
         )}
 
         {/* Tickets List */}
-        <Card className="bg-[#121212] border-[#D4AF37]/30">
+        <Card className="card bg-[#121212] border-[#D4AF37]/30">
           <CardHeader>
             <CardTitle className="text-white">Bilhetes ({invoiceDetails.tickets?.length || 0})</CardTitle>
           </CardHeader>

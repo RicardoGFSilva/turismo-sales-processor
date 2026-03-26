@@ -64,7 +64,7 @@ export default function MetricsDashboard() {
   const uniqueAgencies = Array.from(new Set(processingTrends?.trends?.map((t: any) => t.agencyName) || []));
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#050505] to-[#121212] text-white p-8">
+    <div className="min-h-screen bg-background bg-gradient-to-br from-[#050505] to-[#121212] text-white p-8">
       <div className="container mx-auto max-w-7xl space-y-8">
         {/* Header */}
         <div className="flex justify-between items-start">
@@ -99,7 +99,7 @@ export default function MetricsDashboard() {
         </div>
 
         {/* Agency Success Rates */}
-        <Card className="bg-[#121212] border-[#D4AF37]/30">
+        <Card className="card bg-[#121212] border-[#D4AF37]/30">
           <CardHeader>
             <CardTitle className="text-white">Taxa de Sucesso por Agência</CardTitle>
             <CardDescription className="text-gray-300">Percentual de faturas válidas por agência</CardDescription>
@@ -130,7 +130,7 @@ export default function MetricsDashboard() {
         </Card>
 
         {/* Agency Stats Table */}
-        <Card className="bg-[#121212] border-[#D4AF37]/30">
+        <Card className="card bg-[#121212] border-[#D4AF37]/30">
           <CardHeader>
             <CardTitle className="text-white">Detalhes por Agência</CardTitle>
             <CardDescription className="text-gray-300">Estatísticas completas de processamento</CardDescription>
@@ -174,7 +174,7 @@ export default function MetricsDashboard() {
         </Card>
 
         {/* Processing Trends by Agency */}
-        <Card className="bg-[#121212] border-[#D4AF37]/30">
+        <Card className="card bg-[#121212] border-[#D4AF37]/30">
           <CardHeader>
             <CardTitle className="text-white">Tendência de Processamento por Agência</CardTitle>
             <CardDescription className="text-gray-300">Número de faturas processadas por dia e agência</CardDescription>
@@ -216,7 +216,7 @@ export default function MetricsDashboard() {
 
         {/* Summary Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Card className="bg-[#121212] border-[#D4AF37]/30">
+          <Card className="card bg-[#121212] border-[#D4AF37]/30">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-gray-300">Total de Agências</CardTitle>
             </CardHeader>
@@ -225,7 +225,7 @@ export default function MetricsDashboard() {
             </CardContent>
           </Card>
 
-          <Card className="bg-[#121212] border-[#D4AF37]/30">
+          <Card className="card bg-[#121212] border-[#D4AF37]/30">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-gray-300">Taxa Média de Sucesso</CardTitle>
             </CardHeader>
@@ -242,7 +242,7 @@ export default function MetricsDashboard() {
             </CardContent>
           </Card>
 
-          <Card className="bg-[#121212] border-[#D4AF37]/30">
+          <Card className="card bg-[#121212] border-[#D4AF37]/30">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-gray-300">Total de Faturas</CardTitle>
             </CardHeader>

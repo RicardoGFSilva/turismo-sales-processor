@@ -132,7 +132,7 @@ export default function Dashboard() {
   const canAccessMetrics = permissions?.canAccessMetrics ?? false;
 
   return (
-    <div className="min-h-screen animate-fade-in bg-gradient-to-br from-[#050505] to-[#121212] text-white">
+    <div className="min-h-screen bg-background animate-fade-in bg-gradient-to-br from-[#050505] to-[#121212] text-white">
       {/* Header */}
       <header className="border-b border-[#ffc107]/20 bg-[#050505] p-4">
         <div className="container mx-auto">
@@ -201,7 +201,7 @@ export default function Dashboard() {
 
       <main className="container mx-auto px-4 py-8">
         {/* Upload Section */}
-        <Card className="mb-8 bg-[#121212] border-[#D4AF37]/30">
+        <Card className="card mb-8 bg-[#121212] border-[#D4AF37]/30">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-white">
               <Upload className="h-5 w-5 text-[#ffc107]" />
@@ -248,7 +248,7 @@ export default function Dashboard() {
         </Card>
 
         {/* Search Section */}
-        <Card className="mb-8 bg-[#121212] border-[#D4AF37]/30">
+        <Card className="card mb-8 bg-[#121212] border-[#D4AF37]/30">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-white">
               <Search className="h-5 w-5 text-[#D4AF37]" />
@@ -266,7 +266,7 @@ export default function Dashboard() {
         </Card>
 
         {/* Invoices Table */}
-        <Card className="bg-[#121212] border-[#D4AF37]/30">
+        <Card className="card bg-[#121212] border-[#D4AF37]/30">
           <CardHeader>
             <div className="flex justify-between items-start">
               <div>
