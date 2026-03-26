@@ -36,8 +36,8 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#050505] to-[#121212] flex items-center justify-center p-4">
-      <Card className="w-full max-w-md bg-[#121212] border-[#D4AF37]/30 border-2">
+    <div className="min-h-screen animate-fade-in bg-gradient-to-br from-[#050505] to-[#121212] flex items-center justify-center p-4">
+      <Card className="w-full animate-scale-in max-w-md bg-[#121212] border-[#D4AF37]/30 border-2">
         <CardHeader className="text-center">
           <div className="flex justify-center mb-4">
             <img src={APP_LOGO} alt="Logo" className="h-16 w-16" />
@@ -101,7 +101,7 @@ export default function Login() {
             <Button
               type="submit"
               disabled={isLoading || !email || !password}
-              className="w-full bg-[#D4AF37] text-[#050505] hover:bg-[#F1D476] font-semibold transition-all"
+              className="w-full bg-[#D4AF37] hover:shadow-lg hover:scale-105 active:scale-95 text-[#050505] hover:bg-[#F1D476] font-semibold transition-all"
             >
               {isLoading ? 'Entrando...' : 'Entrar'}
             </Button>
@@ -111,7 +111,7 @@ export default function Login() {
               <button
                 type="button"
                 onClick={() => setLocation('/forgot-password')}
-                className="text-sm text-[#D4AF37] hover:text-[#F1D476] underline"
+                className="text-sm text-[#D4AF37] hover:text-[#F1D476] transition-colors hover:text-[#F1D476] underline"
               >
                 Esqueceu a senha?
               </button>

@@ -120,7 +120,7 @@ export default function ForgotPassword() {
             <Button
               type="submit"
               disabled={isLoading || !email}
-              className="w-full bg-[#D4AF37] text-[#050505] hover:bg-[#F1D476] font-semibold transition-all"
+              className="w-full bg-[#D4AF37] hover:shadow-lg hover:scale-105 active:scale-95 text-[#050505] hover:bg-[#F1D476] font-semibold transition-all"
             >
               {isLoading ? 'Enviando...' : 'Enviar Link de Recuperação'}
             </Button>
@@ -169,7 +169,7 @@ export default function ForgotPassword() {
             <Button
               type="submit"
               disabled={isLoading || !token || !newPassword || !confirmPassword}
-              className="w-full bg-[#D4AF37] text-[#050505] hover:bg-[#F1D476] font-semibold transition-all"
+              className="w-full bg-[#D4AF37] hover:shadow-lg hover:scale-105 active:scale-95 text-[#050505] hover:bg-[#F1D476] font-semibold transition-all"
             >
               {isLoading ? 'Redefinindo...' : 'Redefinir Senha'}
             </Button>

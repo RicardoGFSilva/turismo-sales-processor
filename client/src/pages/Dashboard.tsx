@@ -132,7 +132,7 @@ export default function Dashboard() {
   const canAccessMetrics = permissions?.canAccessMetrics ?? false;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#050505] to-[#121212] text-white">
+    <div className="min-h-screen animate-fade-in bg-gradient-to-br from-[#050505] to-[#121212] text-white">
       {/* Header */}
       <header className="border-b border-[#ffc107]/20 bg-[#050505] p-4">
         <div className="container mx-auto">

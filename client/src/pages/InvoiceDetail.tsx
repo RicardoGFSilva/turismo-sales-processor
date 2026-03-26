@@ -241,7 +241,7 @@ export default function InvoiceDetail({ invoiceId }: InvoiceDetailProps) {
                 <Button
                   onClick={() => handleUploadAttachment(voucherFile, 'voucher')}
                   disabled={!voucherFile || uploading || uploadAttachmentMutation.isPending}
-                  className="w-full bg-[#D4AF37] text-[#050505] hover:bg-[#F1D476] font-semibold"
+                  className="w-full bg-[#D4AF37] hover:shadow-lg hover:scale-105 active:scale-95 text-[#050505] hover:bg-[#F1D476] font-semibold"
                 >
                   {uploading || uploadAttachmentMutation.isPending ? (
                     <>
@@ -277,7 +277,7 @@ export default function InvoiceDetail({ invoiceId }: InvoiceDetailProps) {
                 <Button
                   onClick={() => handleUploadAttachment(billetFile, 'billet')}
                   disabled={!billetFile || uploading || uploadAttachmentMutation.isPending}
-                  className="w-full bg-[#D4AF37] text-[#050505] hover:bg-[#F1D476] font-semibold"
+                  className="w-full bg-[#D4AF37] hover:shadow-lg hover:scale-105 active:scale-95 text-[#050505] hover:bg-[#F1D476] font-semibold"
                 >
                   {uploading || uploadAttachmentMutation.isPending ? (
                     <>
