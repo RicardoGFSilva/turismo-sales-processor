@@ -132,9 +132,9 @@ export default function Dashboard() {
   const canAccessMetrics = permissions?.canAccessMetrics ?? false;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a1930] to-[#1a2a4a] text-white">
+    <div className="min-h-screen bg-gradient-to-br from-[#050505] to-[#121212] text-white">
       {/* Header */}
-      <header className="border-b border-[#ffc107]/20 bg-[#0a1930] p-4">
+      <header className="border-b border-[#ffc107]/20 bg-[#050505] p-4">
         <div className="container mx-auto">
           {/* Top Row: Logo and Title */}
           <div className="flex items-center justify-between mb-4">
@@ -143,7 +143,7 @@ export default function Dashboard() {
               <h1 className="text-xl font-bold text-white">Sistema de Processamento de Vendas de Turismo</h1>
             </div>
             <div className="text-sm text-gray-300">
-              Conectado como: <span className="font-semibold text-[#00bcd4]">{user?.name || 'Usuário'}</span>
+              Conectado como: <span className="font-semibold text-[#D4AF37]">{user?.name || 'Usuário'}</span>
             </div>
           </div>
           
@@ -187,7 +187,7 @@ export default function Dashboard() {
               </Button>
               <Button
                 onClick={() => setLocation('/validation-stats')}
-                className="flex items-center gap-2 bg-[#00bcd4] text-[#0a1930] hover:bg-[#00a8b8]"
+                className="flex items-center gap-2 bg-[#D4AF37] text-[#050505] hover:bg-[#F1D476]"
                 size="sm"
               >
                 <BarChart3 className="h-4 w-4" />
@@ -201,7 +201,7 @@ export default function Dashboard() {
 
       <main className="container mx-auto px-4 py-8">
         {/* Upload Section */}
-        <Card className="mb-8 bg-[#1a2a4a] border-white/10">
+        <Card className="mb-8 bg-[#121212] border-[#D4AF37]/30">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-white">
               <Upload className="h-5 w-5 text-[#ffc107]" />
@@ -232,11 +232,11 @@ export default function Dashboard() {
               <Button
                 onClick={handleUpload}
                 disabled={!uploadFile || uploading || uploadPDFMutation.isPending}
-                className="w-full bg-[#ffc107] text-[#0a1930] hover:bg-[#ffb300] font-semibold"
+                className="w-full bg-[#ffc107] text-[#050505] hover:bg-[#ffb300] font-semibold"
               >
                 {uploading || uploadPDFMutation.isPending ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin text-[#0a1930]" />
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin text-[#050505]" />
                     Processando...
                   </>
                 ) : (
@@ -248,10 +248,10 @@ export default function Dashboard() {
         </Card>
 
         {/* Search Section */}
-        <Card className="mb-8 bg-[#1a2a4a] border-white/10">
+        <Card className="mb-8 bg-[#121212] border-[#D4AF37]/30">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-white">
-              <Search className="h-5 w-5 text-[#00bcd4]" />
+              <Search className="h-5 w-5 text-[#D4AF37]" />
               Pesquisar Faturas
             </CardTitle>
           </CardHeader>
@@ -260,13 +260,13 @@ export default function Dashboard() {
               placeholder="Pesquise por nome do cliente ou CNPJ..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="bg-[#0a1930] border-white/20 text-white placeholder:text-gray-500"
+              className="bg-[#050505] border-white/20 text-white placeholder:text-gray-500"
             />
           </CardContent>
         </Card>
 
         {/* Invoices Table */}
-        <Card className="bg-[#1a2a4a] border-white/10">
+        <Card className="bg-[#121212] border-[#D4AF37]/30">
           <CardHeader>
             <div className="flex justify-between items-start">
               <div>
@@ -280,7 +280,7 @@ export default function Dashboard() {
                     variant={itemsPerPage === limit ? 'default' : 'outline'}
                     size="sm"
                     onClick={() => handleItemsPerPageChange(limit)}
-                    className={itemsPerPage === limit ? 'bg-[#ffc107] text-[#0a1930] hover:bg-[#ffb300]' : 'border-white/20 text-white hover:bg-white/10'}
+                    className={itemsPerPage === limit ? 'bg-[#ffc107] text-[#050505] hover:bg-[#ffb300]' : 'border-white/20 text-white hover:bg-white/10'}
                   >
                     {limit}
                   </Button>
@@ -297,7 +297,7 @@ export default function Dashboard() {
               <div className="overflow-x-auto">
                 <Table>
                   <TableHeader>
-                    <TableRow className="border-white/10 hover:bg-transparent">
+                    <TableRow className="border-[#D4AF37]/30 hover:bg-transparent">
                       <TableHead className="text-white">ID da Fatura</TableHead>
                       <TableHead className="text-white">Cliente</TableHead>
                       <TableHead className="text-white">Agência</TableHead>
@@ -308,7 +308,7 @@ export default function Dashboard() {
                   </TableHeader>
                   <TableBody>
                     {invoices.map((invoice: any) => (
-                      <TableRow key={invoice.id} className="border-white/10 hover:bg-white/5">
+                      <TableRow key={invoice.id} className="border-[#D4AF37]/30 hover:bg-white/5">
                         <TableCell className="font-mono text-[#ffc107]">{invoice.invoiceId}</TableCell>
                         <TableCell className="text-white">{invoice.clientName}</TableCell>
                         <TableCell className="text-sm text-gray-400">{invoice.agencyName}</TableCell>
@@ -335,7 +335,7 @@ export default function Dashboard() {
                             variant="ghost"
                             size="sm"
                             onClick={() => setLocation(`/invoice/${invoice.invoiceId}`)}
-                            className="text-[#00bcd4] hover:bg-white/10"
+                            className="text-[#D4AF37] hover:bg-white/10"
                           >
                             <Eye className="h-4 w-4" />
                           </Button>
@@ -352,7 +352,7 @@ export default function Dashboard() {
                     ))}
                   </TableBody>
                 </Table>
-              <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-4">
+              <div className="mt-6 flex items-center justify-between border-t border-[#D4AF37]/30 pt-4">
                 <div className="text-sm text-gray-400">
                   Página <span className="font-semibold text-white">{currentPage}</span>
                 </div>
@@ -390,7 +390,7 @@ export default function Dashboard() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-white/10 bg-[#0a1930]/80 mt-12">
+      <footer className="border-t border-[#D4AF37]/30 bg-[#050505]/80 mt-12">
         <div className="container mx-auto px-4 py-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
@@ -407,7 +407,7 @@ export default function Dashboard() {
               <p className="text-sm text-gray-400">Tourism Sales Processor v1.0</p>
             </div>
           </div>
-          <div className="border-t border-white/10 mt-8 pt-8 text-center text-sm text-gray-500">
+          <div className="border-t border-[#D4AF37]/30 mt-8 pt-8 text-center text-sm text-gray-500">
             <p>&copy; 2025 Master Project Business. Todos os direitos reservados.</p>
           </div>
         </div>

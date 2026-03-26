@@ -43,15 +43,17 @@
 }
 
 :root {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
-  --sidebar-primary: var(--color-blue-600);
-  --sidebar-primary-foreground: var(--color-blue-50);
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-500);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-blue-700);
-  --chart-5: var(--color-blue-800);
+  /* Royal Gold Design System */
+  --primary: #D4AF37;
+  --primary-foreground: #050505;
+  --primary-light: #F1D476;
+  --sidebar-primary: #D4AF37;
+  --sidebar-primary-foreground: #050505;
+  --chart-1: #F1D476;
+  --chart-2: #D4AF37;
+  --chart-3: #C5A028;
+  --chart-4: #B8941F;
+  --chart-5: #A67C1F;
   --radius: 0.65rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.235 0.015 65);
@@ -79,38 +81,39 @@
 }
 
 .dark {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
-  --sidebar-primary: var(--color-blue-500);
-  --sidebar-primary-foreground: var(--color-blue-50);
-  --background: oklch(0.141 0.005 285.823);
-  --foreground: oklch(0.85 0.005 65);
-  --card: oklch(0.21 0.006 285.885);
-  --card-foreground: oklch(0.85 0.005 65);
-  --popover: oklch(0.21 0.006 285.885);
-  --popover-foreground: oklch(0.85 0.005 65);
-  --secondary: oklch(0.24 0.006 286.033);
-  --secondary-foreground: oklch(0.7 0.005 65);
-  --muted: oklch(0.274 0.006 286.033);
-  --muted-foreground: oklch(0.705 0.015 286.067);
-  --accent: oklch(0.274 0.006 286.033);
-  --accent-foreground:  oklch(0.92 0.005 65);
+  /* Royal Gold Design System - Dark Mode */
+  --primary: #D4AF37;
+  --primary-foreground: #F5F5F5;
+  --sidebar-primary: #D4AF37;
+  --sidebar-primary-foreground: #050505;
+  --background: #050505;
+  --foreground: #F5F5F5;
+  --card: #121212;
+  --card-foreground: #F5F5F5;
+  --popover: #121212;
+  --popover-foreground: #F5F5F5;
+  --secondary: #1a1a1a;
+  --secondary-foreground: #D4AF37;
+  --muted: #2a2a2a;
+  --muted-foreground: #999999;
+  --accent: #D4AF37;
+  --accent-foreground: #050505;
   --destructive: oklch(0.704 0.191 22.216);
   --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.488 0.243 264.376);
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-500);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-blue-700);
-  --chart-5: var(--color-blue-800);
-  --sidebar: oklch(0.21 0.006 285.885);
-  --sidebar-foreground: oklch(0.85 0.005 65);
-  --sidebar-accent: oklch(0.274 0.006 286.033);
-  --sidebar-accent-foreground:  oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.488 0.243 264.376);
+  --border: #D4AF37;
+  --input: #1a1a1a;
+  --ring: #D4AF37;
+  --chart-1: #F1D476;
+  --chart-2: #D4AF37;
+  --chart-3: #C5A028;
+  --chart-4: #B8941F;
+  --chart-5: #A67C1F;
+  --sidebar: #121212;
+  --sidebar-foreground: #F5F5F5;
+  --sidebar-accent: #D4AF37;
+  --sidebar-accent-foreground: #050505;
+  --sidebar-border: #D4AF37;
+  --sidebar-ring: #D4AF37;
 }
 
 @layer base {

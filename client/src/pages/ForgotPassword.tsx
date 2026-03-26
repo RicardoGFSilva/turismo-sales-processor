@@ -73,14 +73,14 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a1930] to-[#1a2a4a] flex items-center justify-center p-4">
-      <Card className="w-full max-w-md bg-[#1a2a4a] border-white/10">
+    <div className="min-h-screen bg-gradient-to-br from-[#050505] to-[#121212] flex items-center justify-center p-4">
+      <Card className="w-full max-w-md bg-[#121212] border-[#D4AF37]/30 border-2">
         <CardHeader className="text-center">
           <div className="flex justify-center mb-4">
             <img src={APP_LOGO} alt="Logo" className="h-16 w-16" />
           </div>
-          <CardTitle className="text-2xl text-white">Recuperar Senha</CardTitle>
-          <CardDescription className="text-gray-400">
+          <CardTitle className="text-2xl text-[#D4AF37] font-cinzel">Recuperar Senha</CardTitle>
+          <CardDescription className="text-[#D4AF37]/70">
             {step === 'email' ? 'Digite seu email para receber um link de recuperação' : 'Digite o token e sua nova senha'}
           </CardDescription>
         </CardHeader>
@@ -88,91 +88,91 @@ export default function ForgotPassword() {
         <CardContent>
           {/* Success Message */}
           {success && (
-            <div className="mb-4 flex items-center gap-2 p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
+            <div className="mb-4 flex items-center gap-2 p-3 bg-green-500/10 border border-green-500/50 rounded-lg">
               <CheckCircle className="h-4 w-4 text-green-400" />
-              <p className="text-sm text-green-400">{success}</p>
+              <p className="text-sm text-green-300">{success}</p>
             </div>
           )}
 
           {/* Error Message */}
           {error && (
-            <div className="mb-4 flex items-center gap-2 p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
+            <div className="mb-4 flex items-center gap-2 p-3 bg-red-500/10 border border-red-500/50 rounded-lg">
               <AlertCircle className="h-4 w-4 text-red-400" />
-              <p className="text-sm text-red-400">{error}</p>
+              <p className="text-sm text-red-300">{error}</p>
             </div>
           )}
 
           {step === 'email' ? (
             <form onSubmit={handleRequestReset} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
-                <Input
-                  type="email"
-                  placeholder="seu@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  disabled={isLoading}
-                  className="bg-[#0a1930] border-white/10 text-white placeholder:text-gray-500"
-                  required
-                />
+              <label className="block text-sm font-medium text-[#D4AF37] mb-2">Email</label>
+              <Input
+                type="email"
+                placeholder="seu@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={isLoading}
+                className="bg-[#050505] border-[#D4AF37]/30 text-white placeholder:text-gray-600"
+                required
+              />
               </div>
 
-              <Button
-                type="submit"
-                disabled={isLoading || !email}
-                className="w-full bg-[#00bcd4] text-[#0a1930] hover:bg-[#00a8b8] font-semibold"
-              >
-                {isLoading ? 'Enviando...' : 'Enviar Link de Recuperação'}
-              </Button>
+            <Button
+              type="submit"
+              disabled={isLoading || !email}
+              className="w-full bg-[#D4AF37] text-[#050505] hover:bg-[#F1D476] font-semibold transition-all"
+            >
+              {isLoading ? 'Enviando...' : 'Enviar Link de Recuperação'}
+            </Button>
             </form>
           ) : (
             <form onSubmit={handleResetPassword} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Token de Recuperação</label>
-                <Input
-                  type="text"
-                  placeholder="Cole o token recebido por email"
-                  value={token}
-                  onChange={(e) => setToken(e.target.value)}
-                  disabled={isLoading}
-                  className="bg-[#0a1930] border-white/10 text-white placeholder:text-gray-500"
-                  required
-                />
+              <label className="block text-sm font-medium text-[#D4AF37] mb-2">Token de Recuperação</label>
+              <Input
+                type="text"
+                placeholder="Cole o token recebido por email"
+                value={token}
+                onChange={(e) => setToken(e.target.value)}
+                disabled={isLoading}
+                className="bg-[#050505] border-[#D4AF37]/30 text-white placeholder:text-gray-600"
+                required
+              />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Nova Senha</label>
-                <Input
-                  type="password"
-                  placeholder="••••••••"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  disabled={isLoading}
-                  className="bg-[#0a1930] border-white/10 text-white placeholder:text-gray-500"
-                  required
-                />
+              <label className="block text-sm font-medium text-[#D4AF37] mb-2">Nova Senha</label>
+              <Input
+                type="password"
+                placeholder="••••••••"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                disabled={isLoading}
+                className="bg-[#050505] border-[#D4AF37]/30 text-white placeholder:text-gray-600"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-[#D4AF37] mb-2">Confirmar Senha</label>
+              <Input
+                type="password"
+                placeholder="••••••••"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                disabled={isLoading}
+                className="bg-[#050505] border-[#D4AF37]/30 text-white placeholder:text-gray-600"
+                required
+              />
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Confirmar Senha</label>
-                <Input
-                  type="password"
-                  placeholder="••••••••"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  disabled={isLoading}
-                  className="bg-[#0a1930] border-white/10 text-white placeholder:text-gray-500"
-                  required
-                />
-              </div>
-
-              <Button
-                type="submit"
-                disabled={isLoading || !token || !newPassword || !confirmPassword}
-                className="w-full bg-[#00bcd4] text-[#0a1930] hover:bg-[#00a8b8] font-semibold"
-              >
-                {isLoading ? 'Redefinindo...' : 'Redefinir Senha'}
-              </Button>
+            <Button
+              type="submit"
+              disabled={isLoading || !token || !newPassword || !confirmPassword}
+              className="w-full bg-[#D4AF37] text-[#050505] hover:bg-[#F1D476] font-semibold transition-all"
+            >
+              {isLoading ? 'Redefinindo...' : 'Redefinir Senha'}
+            </Button>
             </form>
           )}
 
@@ -180,7 +180,7 @@ export default function ForgotPassword() {
           <div className="mt-6 text-center">
             <button
               onClick={() => setLocation('/login')}
-              className="flex items-center justify-center gap-2 text-sm text-[#00bcd4] hover:text-[#00a8b8] underline mx-auto"
+              className="flex items-center justify-center gap-2 text-sm text-[#D4AF37] hover:text-[#F1D476] underline mx-auto"
             >
               <ArrowLeft className="h-4 w-4" />
               Voltar ao Login

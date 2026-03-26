@@ -63,7 +63,7 @@ export default function AccountsPayable() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-[#0a1930] to-[#1a2a4a]">
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-[#050505] to-[#121212]">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#ffc107] mx-auto mb-4"></div>
           <p className="text-gray-300">Carregando contas a pagar...</p>
@@ -73,7 +73,7 @@ export default function AccountsPayable() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a1930] to-[#1a2a4a] text-white p-8">
+    <div className="min-h-screen bg-gradient-to-br from-[#050505] to-[#121212] text-white p-8">
       <div className="container mx-auto max-w-7xl space-y-8">
         {/* Header */}
         <div className="flex justify-between items-start">
@@ -81,7 +81,7 @@ export default function AccountsPayable() {
             <Button
               variant="ghost"
               onClick={() => setLocation('/dashboard')}
-              className="text-[#00bcd4] hover:bg-white/10 mb-4"
+              className="text-[#D4AF37] hover:bg-white/10 mb-4"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
               Voltar ao Dashboard
@@ -96,7 +96,7 @@ export default function AccountsPayable() {
                 variant={daysBack === days ? 'default' : 'outline'}
                 onClick={() => setDaysBack(days)}
                 size="sm"
-                className={daysBack === days ? 'bg-[#ffc107] text-[#0a1930] hover:bg-[#ffb300]' : 'border-white/20 text-white hover:bg-white/10'}
+                className={daysBack === days ? 'bg-[#ffc107] text-[#050505] hover:bg-[#ffb300]' : 'border-white/20 text-white hover:bg-white/10'}
               >
                 {days}d
               </Button>
@@ -106,7 +106,7 @@ export default function AccountsPayable() {
 
         {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card className="bg-[#1a2a4a] border-white/10">
+          <Card className="bg-[#121212] border-[#D4AF37]/30">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-gray-300 flex items-center gap-2">
                 <Clock className="h-4 w-4 text-yellow-400" />
@@ -119,7 +119,7 @@ export default function AccountsPayable() {
             </CardContent>
           </Card>
 
-          <Card className="bg-[#1a2a4a] border-white/10">
+          <Card className="bg-[#121212] border-[#D4AF37]/30">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-gray-300 flex items-center gap-2">
                 <AlertCircle className="h-4 w-4 text-red-400" />
@@ -132,7 +132,7 @@ export default function AccountsPayable() {
             </CardContent>
           </Card>
 
-          <Card className="bg-[#1a2a4a] border-white/10">
+          <Card className="bg-[#121212] border-[#D4AF37]/30">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-gray-300 flex items-center gap-2">
                 <CheckCircle className="h-4 w-4 text-green-400" />
@@ -144,18 +144,18 @@ export default function AccountsPayable() {
             </CardContent>
           </Card>
 
-          <Card className="bg-[#1a2a4a] border-white/10">
+          <Card className="bg-[#121212] border-[#D4AF37]/30">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-gray-300">Total</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-[#00bcd4]">{apSummary?.totalRecords || 0}</div>
+              <div className="text-2xl font-bold text-[#D4AF37]">{apSummary?.totalRecords || 0}</div>
             </CardContent>
           </Card>
         </div>
 
         {/* Accounts Payable Table */}
-        <Card className="bg-[#1a2a4a] border-white/10">
+        <Card className="bg-[#121212] border-[#D4AF37]/30">
           <CardHeader>
             <CardTitle className="text-white">Registros de Contas a Pagar</CardTitle>
             <CardDescription className="text-gray-300">Últimos {daysBack} dias</CardDescription>
@@ -165,7 +165,7 @@ export default function AccountsPayable() {
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="border-b border-white/10">
+                    <tr className="border-b border-[#D4AF37]/30">
                       <th className="text-left py-3 px-4 text-gray-300">Fatura</th>
                       <th className="text-left py-3 px-4 text-gray-300">Fornecedor</th>
                       <th className="text-right py-3 px-4 text-gray-300">Valor</th>

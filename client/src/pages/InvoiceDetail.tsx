@@ -112,10 +112,10 @@ export default function InvoiceDetail({ invoiceId }: InvoiceDetailProps) {
 
   if (!invoiceDetails) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#0a1930] to-[#1a2a4a] text-white p-8">
+      <div className="min-h-screen bg-gradient-to-br from-[#050505] to-[#121212] text-white p-8">
         <div className="text-center">
           <p>Fatura não encontrada</p>
-          <Button onClick={() => setLocation('/dashboard')} className="mt-4 bg-[#ffc107] text-[#0a1930] hover:bg-[#ffb300]">
+          <Button onClick={() => setLocation('/dashboard')} className="mt-4 bg-[#ffc107] text-[#050505] hover:bg-[#ffb300]">
             Voltar ao Dashboard
           </Button>
         </div>
@@ -124,14 +124,14 @@ export default function InvoiceDetail({ invoiceId }: InvoiceDetailProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a1930] to-[#1a2a4a] text-white p-8">
+    <div className="min-h-screen bg-gradient-to-br from-[#050505] to-[#121212] text-white p-8">
       <div className="container mx-auto max-w-4xl">
         {/* Header */}
         <div className="mb-8">
           <Button
             variant="ghost"
             onClick={() => setLocation('/dashboard')}
-            className="text-[#00bcd4] hover:bg-white/10 mb-4"
+            className="text-[#D4AF37] hover:bg-white/10 mb-4"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
             Voltar ao Dashboard
@@ -140,7 +140,7 @@ export default function InvoiceDetail({ invoiceId }: InvoiceDetailProps) {
         </div>
 
         {/* Invoice Summary */}
-        <Card className="mb-8 bg-[#1a2a4a] border-white/10">
+        <Card className="mb-8 bg-[#121212] border-[#D4AF37]/30">
           <CardHeader>
             <CardTitle className="text-white">Resumo da Fatura</CardTitle>
           </CardHeader>
@@ -169,7 +169,7 @@ export default function InvoiceDetail({ invoiceId }: InvoiceDetailProps) {
         </Card>
 
         {/* Client Details Form */}
-        <Card className="mb-8 bg-[#1a2a4a] border-white/10">
+        <Card className="mb-8 bg-[#121212] border-[#D4AF37]/30">
           <CardHeader>
             <CardTitle className="text-white">Detalhes do Cliente</CardTitle>
             <CardDescription className="text-gray-300">Adicione informações adicionais sobre o cliente final</CardDescription>
@@ -182,7 +182,7 @@ export default function InvoiceDetail({ invoiceId }: InvoiceDetailProps) {
                   placeholder="Digite o nome do cliente final"
                   value={finalClientName || invoiceDetails.details?.finalClientName || ''}
                   onChange={(e) => setFinalClientName(e.target.value)}
-                  className="bg-[#0a1930] border-white/20 text-white placeholder:text-gray-500"
+                  className="bg-[#050505] border-white/20 text-white placeholder:text-gray-500"
                 />
               </div>
               <div>
@@ -191,18 +191,18 @@ export default function InvoiceDetail({ invoiceId }: InvoiceDetailProps) {
                   placeholder="Adicione observações ou anotações"
                   value={notes || invoiceDetails.details?.notes || ''}
                   onChange={(e) => setNotes(e.target.value)}
-                  className="bg-[#0a1930] border-white/20 text-white placeholder:text-gray-500"
+                  className="bg-[#050505] border-white/20 text-white placeholder:text-gray-500"
                   rows={4}
                 />
               </div>
               <Button
                 onClick={handleUpdateDetails}
                 disabled={updateDetailsMutation.isPending}
-                className="w-full bg-[#ffc107] text-[#0a1930] hover:bg-[#ffb300] font-semibold"
+                className="w-full bg-[#ffc107] text-[#050505] hover:bg-[#ffb300] font-semibold"
               >
                 {updateDetailsMutation.isPending ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin text-[#0a1930]" />
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin text-[#050505]" />
                     Salvando...
                   </>
                 ) : (
@@ -214,7 +214,7 @@ export default function InvoiceDetail({ invoiceId }: InvoiceDetailProps) {
         </Card>
 
         {/* Attachments */}
-        <Card className="mb-8 bg-[#1a2a4a] border-white/10">
+        <Card className="mb-8 bg-[#121212] border-[#D4AF37]/30">
           <CardHeader>
             <CardTitle className="text-white">Anexos</CardTitle>
             <CardDescription className="text-gray-300">Envie vouchers e bilhetes</CardDescription>
@@ -224,7 +224,7 @@ export default function InvoiceDetail({ invoiceId }: InvoiceDetailProps) {
               {/* Voucher Upload */}
               <div className="space-y-4">
                 <h3 className="font-semibold text-white">Voucher</h3>
-                <div className="border-2 border-dashed border-white/20 rounded-lg p-6 text-center hover:border-[#00bcd4]/50 transition">
+                <div className="border-2 border-dashed border-white/20 rounded-lg p-6 text-center hover:border-[#D4AF37]/50 transition">
                   <input
                     type="file"
                     onChange={(e) => setVoucherFile(e.target.files?.[0] || null)}
@@ -232,7 +232,7 @@ export default function InvoiceDetail({ invoiceId }: InvoiceDetailProps) {
                     id="voucher-upload"
                   />
                   <label htmlFor="voucher-upload" className="cursor-pointer">
-                    <Upload className="h-6 w-6 mx-auto text-[#00bcd4] mb-2" />
+                    <Upload className="h-6 w-6 mx-auto text-[#D4AF37] mb-2" />
                     <p className="text-sm text-white">
                       {voucherFile ? voucherFile.name : 'Clique para selecionar arquivo'}
                     </p>
@@ -241,11 +241,11 @@ export default function InvoiceDetail({ invoiceId }: InvoiceDetailProps) {
                 <Button
                   onClick={() => handleUploadAttachment(voucherFile, 'voucher')}
                   disabled={!voucherFile || uploading || uploadAttachmentMutation.isPending}
-                  className="w-full bg-[#00bcd4] text-[#0a1930] hover:bg-[#00a8b8] font-semibold"
+                  className="w-full bg-[#D4AF37] text-[#050505] hover:bg-[#F1D476] font-semibold"
                 >
                   {uploading || uploadAttachmentMutation.isPending ? (
                     <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin text-[#0a1930]" />
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin text-[#050505]" />
                       Enviando...
                     </>
                   ) : (
@@ -260,7 +260,7 @@ export default function InvoiceDetail({ invoiceId }: InvoiceDetailProps) {
               {/* Billet Upload */}
               <div className="space-y-4">
                 <h3 className="font-semibold text-white">Bilhete</h3>
-                <div className="border-2 border-dashed border-white/20 rounded-lg p-6 text-center hover:border-[#00bcd4]/50 transition">
+                <div className="border-2 border-dashed border-white/20 rounded-lg p-6 text-center hover:border-[#D4AF37]/50 transition">
                   <input
                     type="file"
                     onChange={(e) => setBilletFile(e.target.files?.[0] || null)}
@@ -268,7 +268,7 @@ export default function InvoiceDetail({ invoiceId }: InvoiceDetailProps) {
                     id="billet-upload"
                   />
                   <label htmlFor="billet-upload" className="cursor-pointer">
-                    <Upload className="h-6 w-6 mx-auto text-[#00bcd4] mb-2" />
+                    <Upload className="h-6 w-6 mx-auto text-[#D4AF37] mb-2" />
                     <p className="text-sm text-white">
                       {billetFile ? billetFile.name : 'Clique para selecionar arquivo'}
                     </p>
@@ -277,11 +277,11 @@ export default function InvoiceDetail({ invoiceId }: InvoiceDetailProps) {
                 <Button
                   onClick={() => handleUploadAttachment(billetFile, 'billet')}
                   disabled={!billetFile || uploading || uploadAttachmentMutation.isPending}
-                  className="w-full bg-[#00bcd4] text-[#0a1930] hover:bg-[#00a8b8] font-semibold"
+                  className="w-full bg-[#D4AF37] text-[#050505] hover:bg-[#F1D476] font-semibold"
                 >
                   {uploading || uploadAttachmentMutation.isPending ? (
                     <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin text-[#0a1930]" />
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin text-[#050505]" />
                       Enviando...
                     </>
                   ) : (
@@ -298,7 +298,7 @@ export default function InvoiceDetail({ invoiceId }: InvoiceDetailProps) {
 
         {/* Airline Operations */}
         {invoiceDetails.operations && invoiceDetails.operations.length > 0 && (
-          <Card className="mb-8 bg-[#1a2a4a] border-white/10">
+          <Card className="mb-8 bg-[#121212] border-[#D4AF37]/30">
             <CardHeader>
               <CardTitle className="text-white">Operações Aéreas ({invoiceDetails.operations.length})</CardTitle>
               <CardDescription className="text-gray-300">Detalhes das operações por companhia aérea</CardDescription>
@@ -307,7 +307,7 @@ export default function InvoiceDetail({ invoiceId }: InvoiceDetailProps) {
               <div className="overflow-x-auto">
                 <Table>
                   <TableHeader>
-                    <TableRow className="border-white/10">
+                    <TableRow className="border-[#D4AF37]/30">
                       <TableHead className="text-white">Passageiro</TableHead>
                       <TableHead className="text-white">Rota</TableHead>
                       <TableHead className="text-white">Companhia</TableHead>
@@ -320,10 +320,10 @@ export default function InvoiceDetail({ invoiceId }: InvoiceDetailProps) {
                   </TableHeader>
                   <TableBody>
                     {invoiceDetails.operations.map((op, idx) => (
-                      <TableRow key={idx} className="border-white/10 hover:bg-white/5">
+                      <TableRow key={idx} className="border-[#D4AF37]/30 hover:bg-white/5">
                         <TableCell className="text-white">{op.passengerName}</TableCell>
                         <TableCell className="text-white">{op.route}</TableCell>
-                        <TableCell className="text-white font-semibold text-[#00bcd4]">{op.airline}</TableCell>
+                        <TableCell className="text-white font-semibold text-[#D4AF37]">{op.airline}</TableCell>
                         <TableCell className="text-white">{op.emissionDate}</TableCell>
                         <TableCell className="text-white font-mono text-sm">{op.ticketNumber}</TableCell>
                         <TableCell className="text-right text-white">{formatCurrency(op.tariff)}</TableCell>
@@ -341,7 +341,7 @@ export default function InvoiceDetail({ invoiceId }: InvoiceDetailProps) {
         )}
 
         {/* Tickets List */}
-        <Card className="bg-[#1a2a4a] border-white/10">
+        <Card className="bg-[#121212] border-[#D4AF37]/30">
           <CardHeader>
             <CardTitle className="text-white">Bilhetes ({invoiceDetails.tickets?.length || 0})</CardTitle>
           </CardHeader>
@@ -349,7 +349,7 @@ export default function InvoiceDetail({ invoiceId }: InvoiceDetailProps) {
             <div className="overflow-x-auto">
               <Table>
                 <TableHeader>
-                  <TableRow className="border-white/10">
+                  <TableRow className="border-[#D4AF37]/30">
                     <TableHead className="text-white">Passageiro</TableHead>
                     <TableHead className="text-white">Companhia Aérea</TableHead>
                     <TableHead className="text-white">Rota</TableHead>
@@ -360,7 +360,7 @@ export default function InvoiceDetail({ invoiceId }: InvoiceDetailProps) {
                 </TableHeader>
                 <TableBody>
                   {invoiceDetails.tickets?.map((ticket) => (
-                    <TableRow key={ticket.id} className="border-white/10 hover:bg-white/5">
+                    <TableRow key={ticket.id} className="border-[#D4AF37]/30 hover:bg-white/5">
                       <TableCell className="text-white">{ticket.passengerName}</TableCell>
                       <TableCell className="text-white">{ticket.airline}</TableCell>
                       <TableCell className="text-white">{ticket.route}</TableCell>

@@ -21,7 +21,7 @@ export default function Home() {
   }, [loading, isAuthenticated, user, setLocation]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0a1930] to-[#1a2a4a]">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#050505] to-[#121212]">
       <div className="text-center">
         <Loader2 className="animate-spin h-12 w-12 text-[#ffc107] mx-auto" />
         <p className="text-white mt-4">Loading...</p>

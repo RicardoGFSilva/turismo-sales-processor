@@ -36,43 +36,43 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a1930] to-[#1a2a4a] flex items-center justify-center p-4">
-      <Card className="w-full max-w-md bg-[#1a2a4a] border-white/10">
+    <div className="min-h-screen bg-gradient-to-br from-[#050505] to-[#121212] flex items-center justify-center p-4">
+      <Card className="w-full max-w-md bg-[#121212] border-[#D4AF37]/30 border-2">
         <CardHeader className="text-center">
           <div className="flex justify-center mb-4">
             <img src={APP_LOGO} alt="Logo" className="h-16 w-16" />
           </div>
-          <CardTitle className="text-2xl text-white">{APP_TITLE}</CardTitle>
-          <CardDescription className="text-gray-400">Faça login para continuar</CardDescription>
+          <CardTitle className="text-2xl text-[#D4AF37] font-cinzel">{APP_TITLE}</CardTitle>
+          <CardDescription className="text-[#D4AF37]/70">Faça login para continuar</CardDescription>
         </CardHeader>
 
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
             {/* Error Message */}
             {error && (
-              <div className="flex items-center gap-2 p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
+              <div className="flex items-center gap-2 p-3 bg-red-500/10 border border-red-500/50 rounded-lg">
                 <AlertCircle className="h-4 w-4 text-red-400" />
-                <p className="text-sm text-red-400">{error}</p>
+                <p className="text-sm text-red-300">{error}</p>
               </div>
             )}
 
             {/* Email Input */}
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
+              <label className="block text-sm font-medium text-[#D4AF37] mb-2">Email</label>
               <Input
                 type="email"
                 placeholder="seu@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={isLoading}
-                className="bg-[#0a1930] border-white/10 text-white placeholder:text-gray-500"
+                className="bg-[#050505] border-[#D4AF37]/30 text-white placeholder:text-gray-600"
                 required
               />
             </div>
 
             {/* Password Input */}
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Senha</label>
+              <label className="block text-sm font-medium text-[#D4AF37] mb-2">Senha</label>
               <div className="relative">
                 <Input
                   type={showPassword ? 'text' : 'password'}
@@ -80,13 +80,13 @@ export default function Login() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   disabled={isLoading}
-                  className="bg-[#0a1930] border-white/10 text-white placeholder:text-gray-500 pr-10"
+                  className="bg-[#050505] border-[#D4AF37]/30 text-white placeholder:text-gray-600 pr-10"
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-300"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#D4AF37]/70 hover:text-[#D4AF37]"
                 >
                   {showPassword ? (
                     <EyeOff className="h-4 w-4" />
@@ -101,7 +101,7 @@ export default function Login() {
             <Button
               type="submit"
               disabled={isLoading || !email || !password}
-              className="w-full bg-[#00bcd4] text-[#0a1930] hover:bg-[#00a8b8] font-semibold"
+              className="w-full bg-[#D4AF37] text-[#050505] hover:bg-[#F1D476] font-semibold transition-all"
             >
               {isLoading ? 'Entrando...' : 'Entrar'}
             </Button>
@@ -111,7 +111,7 @@ export default function Login() {
               <button
                 type="button"
                 onClick={() => setLocation('/forgot-password')}
-                className="text-sm text-[#00bcd4] hover:text-[#00a8b8] underline"
+                className="text-sm text-[#D4AF37] hover:text-[#F1D476] underline"
               >
                 Esqueceu a senha?
               </button>
@@ -119,10 +119,10 @@ export default function Login() {
           </form>
 
           {/* Demo Credentials */}
-          <div className="mt-6 p-3 bg-blue-500/10 border border-blue-500/30 rounded-lg">
-            <p className="text-xs text-blue-400 font-semibold mb-2">Credenciais de Demonstração:</p>
-            <p className="text-xs text-blue-300">Admin: admin@example.com / senha123</p>
-            <p className="text-xs text-blue-300">Usuário: user@example.com / senha123</p>
+          <div className="mt-6 p-3 bg-[#D4AF37]/10 border border-[#D4AF37]/30 rounded-lg">
+            <p className="text-xs text-[#D4AF37] font-semibold mb-2">Credenciais de Demonstração:</p>
+            <p className="text-xs text-[#D4AF37]/80">Admin: admin@example.com / senha123</p>
+            <p className="text-xs text-[#D4AF37]/80">Usuário: user@example.com / senha123</p>
           </div>
         </CardContent>
       </Card>
